@@ -22,11 +22,11 @@
   }
 
   public function setDataNascimento($nova_data){
-    this->data_nascimento = $nova_data;
+    $this->data_nascimento = $nova_data;
   }
 
   public function setrg($novo_rg){
-    this->rg = $novo_rg;
+    $this->rg = $novo_rg;
   }
 }
 ?>

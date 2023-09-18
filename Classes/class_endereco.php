@@ -36,24 +36,22 @@ class Endereco {
     }
 
     public function setLogradouro($novo_logradouro) {
-        this->logradouro = $novo_logradouro;
+        $this->logradouro = $novo_logradouro;
     }
 
     public function setNumero($novo_numero) {
-        this->numero = $novo_numero;
+        $this->numero = $novo_numero;
     }
 
     public function setBairro($novo_bairro) {
-        this->bairro = $novo_bairro;
+        $this->bairro = $novo_bairro;
     }
 
     public function setCidade($nova_cidade) {
-        this->cidade = $nova_cidade;
+        $this->cidade = $nova_cidade;
     }
 
     public function setEstado($novo_estado) {
-        this->estado = $novo_estado;
+        $this->estado = $novo_estado;
     }
 }
-
-?>

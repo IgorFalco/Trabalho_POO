@@ -8,7 +8,7 @@ class Funcionario extends Pessoa {
   protected $salariofixo;
 
   public function __construct($nome, $email, $telefone, $cpf, $logradouro, $numero, $bairro, $cidade, $estado, $salariofixo){
-    parent::__construct($nome, $email, $telefone)
+    parent::__construct($nome, $email, $telefone);
     $this->cpf = $cpf;
     $this->endereco = [
       'logradouro' => $logradouro,
@@ -17,7 +17,6 @@ class Funcionario extends Pessoa {
       'cidade' => $cidade,
       'estado' => $estado
     ];
-    $this->salariofixo = $salariofixo
+    $this->salariofixo = $salariofixo;
   }
 }
-?>
