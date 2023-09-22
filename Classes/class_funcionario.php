@@ -1,13 +1,15 @@
-<?php 
+<?php
 include_once('./class_pessoa.php');
 include_once('./global.php');
 
-class Funcionario extends Pessoa {
+class Funcionario extends Pessoa
+{
   protected $cpf;
   protected $endereco = [];
   protected $salariofixo;
 
-  public function __construct($nome, $email, $telefone, $cpf, $logradouro, $numero, $bairro, $cidade, $estado, $salariofixo){
+  public function __construct(string $nome, string $email, string $telefone, string $cpf, string $logradouro, string $numero, string $bairro, string $cidade, string $estado, float $salariofixo)
+  {
     parent::__construct($nome, $email, $telefone);
     $this->cpf = $cpf;
     $this->endereco = [

@@ -37,4 +37,3 @@ class ClinicaOdonto {
     return $this -> parceiros;
   }
 }
-?>
