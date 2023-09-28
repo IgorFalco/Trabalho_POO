@@ -1,7 +1,5 @@
 <?php
-include_once('./class_paciente.php');
-include_once('./class_dentista.php');
-include_once('./class_tratamento.php');
+
 include_once('./global.php');
 
 class orcamento

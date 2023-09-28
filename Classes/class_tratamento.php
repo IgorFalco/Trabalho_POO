@@ -1,8 +1,6 @@
 <?php
 
-include_once('./class_orcamento.php');
 include_once('./global.php');
-
 
 class Tratamento extends orcamento
 {

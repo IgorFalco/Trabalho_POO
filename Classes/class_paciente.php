@@ -1,7 +1,6 @@
 <?php
-include_once('./class_pessoa.php');
-include_once('./global.php');
 
+include_once('./global.php');
 class Paciente extends Pessoa
 {
   private $data_nascimento;

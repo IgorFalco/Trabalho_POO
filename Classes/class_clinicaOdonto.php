@@ -1,4 +1,6 @@
 <?php
+
+include_once('./global.php');
 class ClinicaOdonto {
   private $clientes = [];
   private $pacientes = [];

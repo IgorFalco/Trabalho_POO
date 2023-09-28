@@ -1,6 +1,6 @@
 <?php
 
-include_once('class_pessoa.php');
+include_once('./global.php');
 
 class Dentista extends Pessoa
 {

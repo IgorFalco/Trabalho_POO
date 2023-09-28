@@ -1,5 +1,5 @@
-<?php
-include_once('./class_pessoa.php');
+<?
+
 include_once('./global.php');
 
 class Funcionario extends Pessoa
