@@ -2,14 +2,14 @@
 
 include_once('./global.php');
 
-class procedimento{
+class procedimento extends persist{
 
     protected $nome_proced;
     protected $descricao_proced;
     protected $valor_proced;
 
     public function _construct(string $nome_proced, string $descricao_proced, int $valor_proced){
-
+        parent::__construct();
         $this->nome_proced = $nome_proced;
         $this->descricao_proced = $descricao_proced;
         $this->valor_proced = $valor_proced;

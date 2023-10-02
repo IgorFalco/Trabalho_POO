@@ -1,7 +1,7 @@
 <?php
 include_once('./global.php');
 
-class ExecucaoDoTratamento
+class ExecucaoDoTratamento extends persist
 {
 
     private $tratamento;
@@ -13,7 +13,7 @@ class ExecucaoDoTratamento
 
     public function __construct(Tratamento $_tratamento, DateTime $_data, DateTime $_horario, DateTime $_duracao, String $_Detalhamento, Dentista $_dentistaExecutor)
     {
-
+        parent::__construct();
         $this->tratamento = $_tratamento;
         $this->data = $_data;
         $this->horario = $_horario;

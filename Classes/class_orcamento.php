@@ -2,7 +2,7 @@
 
 include_once('./global.php');
 
-class orcamento
+class orcamento extends persist
 {
 
     protected $id;
@@ -14,6 +14,7 @@ class orcamento
 
     public function __construct(int $_id, Paciente $_paciente, Dentista $_dentista, DateTime $_Data, array $_procedimento, float $valorTotal)
     {
+        parent::__construct();
         $this->id = $_id;
         $this->paciente = $_paciente;
         $this->dentistaResponsavel = $_dentista;
