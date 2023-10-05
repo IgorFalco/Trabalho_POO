@@ -2,12 +2,16 @@
     function autoloader($pClassName) {
         //echo __NAMESPACE__;
         $path = __DIR__ . '/Classes/' . $pClassName . '.php';
+
         if (is_file($path)) {
             include_once $path;
+
         }
         else {
             $path = __DIR__ . '/Classes/class_' . $pClassName . '.php';
+        
             if (is_file($path)) {
+                
                 include_once $path;
             }
             else

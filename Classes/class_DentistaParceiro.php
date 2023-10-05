@@ -1,6 +1,6 @@
 <?php
 
-include_once('./global.php');
+include_once('global.php');
 
 class DentistaParceiro extends Dentista
 {
@@ -8,7 +8,7 @@ class DentistaParceiro extends Dentista
   protected $comissao;
   protected $percComissao;
 
-  public function __construct(string $nome, string $email, string $telefone, string $cpf, string $cro, string $especialidade, float $percComissao, string $logradouro, string $numero, string $bairro, string $cidade, string $estado)
+  public function __construct(string $nome, string $email, string $telefone, string $cpf, string $cro, Especialidades $especialidade, float $percComissao, string $logradouro, string $numero, string $bairro, string $cidade, string $estado)
   {
     parent::__construct($nome, $email, $telefone, $cpf, $cro, $especialidade, $logradouro, $numero, $bairro, $cidade, $estado);
     $this->percComissao = $percComissao;

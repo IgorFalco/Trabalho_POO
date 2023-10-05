@@ -1,5 +1,5 @@
 <?php
-include_once('./global.php');
+include_once('global.php');
 
 class Especialidades extends persist
 {
@@ -8,7 +8,11 @@ class Especialidades extends persist
 
     public function __construct(String $_nome)
     {
-        parent::__construct();
         $this->nome = $_nome;
+    }
+
+    static public function getFilename()
+    {
+        return "Especialidades.txt";
     }
 }

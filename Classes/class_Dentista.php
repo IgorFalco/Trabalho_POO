@@ -1,6 +1,6 @@
 <?php
 
-include_once('./global.php');
+include_once('global.php');
 
 class Dentista extends Pessoa
 {
@@ -9,7 +9,7 @@ class Dentista extends Pessoa
   protected $especialidade = [];
   protected $endereco = [];
 
-  public function __construct(string $nome, string $email, string $telefone, string $cpf, string $cro, string $especialidade, string $logradouro, string $numero, string $bairro, string $cidade, string $estado)
+  public function __construct(string $nome, string $email, string $telefone, string $cpf, string $cro, Especialidades $especialidade, string $logradouro, string $numero, string $bairro, string $cidade, string $estado)
   {
     parent::__construct($nome, $email, $telefone);
     $this->endereco = [
@@ -34,7 +34,7 @@ class Dentista extends Pessoa
     return $this->cro;
   }
 
-  public function getEspec(): string
+  public function getEspec(): Especialidades
   {
     return $this->especialidade;
   }
@@ -54,7 +54,7 @@ class Dentista extends Pessoa
     $this->cro = $novo_cro;
   }
 
-  public function setEspec(string $nova_espec)
+  public function setEspec(Especialidades $nova_espec)
   {
     $this->especialidade = $nova_espec;
   }

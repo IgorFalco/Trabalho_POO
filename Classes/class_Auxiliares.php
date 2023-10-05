@@ -1,5 +1,5 @@
 <?php
-include_once('./global.php');
+include_once('global.php');
 
 class Auxiliares extends Funcionario
 {

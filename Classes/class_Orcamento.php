@@ -1,6 +1,6 @@
 <?php
 
-include_once('./global.php');
+include_once('global.php');
 
 class Orcamento extends persist
 {
@@ -14,7 +14,6 @@ class Orcamento extends persist
 
     public function __construct(int $_id, Paciente $_paciente, Dentista $_dentista, DateTime $_Data, array $_procedimento, float $valorTotal)
     {
-        parent::__construct();
         $this->id = $_id;
         $this->paciente = $_paciente;
         $this->dentistaResponsavel = $_dentista;
@@ -85,5 +84,10 @@ class Orcamento extends persist
     public function setValorTotal(int $_valorTotal)
     {
         $this->valorTotal = $_valorTotal;
+    }
+
+    static public function getFilename()
+    {
+        return "Orcamento.txt";
     }
 }

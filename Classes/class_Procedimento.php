@@ -1,6 +1,6 @@
 <?php
 
-include_once('./global.php');
+include_once('global.php');
 
 class Procedimento extends persist{
 
@@ -8,8 +8,7 @@ class Procedimento extends persist{
     protected $descricao_proced;
     protected $valor_proced;
 
-    public function _construct(string $nome_proced, string $descricao_proced, int $valor_proced){
-        parent::__construct();
+    public function __construct(string $nome_proced, string $descricao_proced, int $valor_proced){
         $this->nome_proced = $nome_proced;
         $this->descricao_proced = $descricao_proced;
         $this->valor_proced = $valor_proced;
@@ -45,5 +44,10 @@ class Procedimento extends persist{
         $this->valor_proced = $valor_proced;
     }
 
+    
+    static public function getFilename()
+    {
+        return "Procedimento.txt";
+    }
 
 }
