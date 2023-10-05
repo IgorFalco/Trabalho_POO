@@ -2,7 +2,7 @@
 
 include_once('./global.php');
 
-class orcamento extends persist
+class Orcamento extends persist
 {
 
     protected $id;

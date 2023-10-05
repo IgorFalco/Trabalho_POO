@@ -2,7 +2,7 @@
 
 include_once('./global.php');
 
-class procedimento extends persist{
+class Procedimento extends persist{
 
     protected $nome_proced;
     protected $descricao_proced;

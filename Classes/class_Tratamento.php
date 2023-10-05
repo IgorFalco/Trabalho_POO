@@ -2,7 +2,7 @@
 
 include_once('./global.php');
 
-class Tratamento extends orcamento
+class Tratamento extends Orcamento
 {
 
     private $formaDePagamento;

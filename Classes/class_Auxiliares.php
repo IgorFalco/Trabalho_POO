@@ -1,7 +1,7 @@
 <?php
 include_once('./global.php');
 
-class auxiliares extends funcionario
+class Auxiliares extends Funcionario
 {
 
   public function __construct(string $nome, string $email, string $telefone, string $cpf, string $logradouro, string $numero, string $bairro, string $cidade, string $estado, float $salariofixo)
