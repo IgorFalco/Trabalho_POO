@@ -15,7 +15,8 @@ class ExecucaoDoTratamento extends persist
 
     public function __construct(Tratamento $_tratamento, Procedimento $_procedimento, DateTime $_data, DateTime $_horario, DateTime $_duracao, string $_Detalhamento, Dentista $_dentistaExecutor)
     {
-        if( array_key_exists($_dentisaExecutor->getEspec(), $_procedimento->getEspecialidades()) ){
+        $intersect = array_intersect($_dentisaExecutor->getEspec(), $_procedimento->getEspecialidades());
+        if( empty($intersect) == 0 ){
             $this->tratamento = $_tratamento;
             $this->procedimento_realizado = $_procedimento;
             $this->data = $_data;
