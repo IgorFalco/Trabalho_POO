@@ -3,8 +3,10 @@
 
 include_once('global.php');
 
-$especialidades = new Especialidades("Ortodentista");
-
+$especialidades = new Especialidades(
+    "Ortodentista",
+    0.25,
+);
 echo $especialidades;
 
 $Auxiliares = new Auxiliares(
@@ -19,6 +21,8 @@ $Auxiliares = new Auxiliares(
     "SP",
     2500.00
 );
+echo $Auxiliares;
+
 $dentista = new Dentista(
     'Dra. Maria',
     'maria@example.com',
@@ -33,6 +37,8 @@ $dentista = new Dentista(
     'Estado Y'
 );
 echo $dentista;
+
+
 $DentistaParcerio = new DentistaParceiro(
     "João",
     "joao@example.com",
@@ -48,6 +54,7 @@ $DentistaParcerio = new DentistaParceiro(
     "Minas"
 );
 echo $DentistaParcerio;
+
 $secretario = new Secretario(
     'Joana',
     'joana@example.com',
@@ -60,6 +67,7 @@ $secretario = new Secretario(
     'Estado Z',
     2500.00 // Salário fixo do secretário
 );
+echo $secretario;
 
 $cliente = new Cliente(
     "Igor",
@@ -69,16 +77,15 @@ $cliente = new Cliente(
     "18886231",
     []
 );
-
 echo $cliente;
 
 
 $procedimento = new Procedimento(
     'Limpeza Dental',
     'Limpeza dos dentes e remoção de placas',
-    100 // Valor do procedimento
+    100, // Valor do procedimento
+    []
 );
-
 echo $procedimento;
 
 $pessoa = new Pessoa(
@@ -86,7 +93,6 @@ $pessoa = new Pessoa(
     'joao@example.com',
     '123-456-7890'
 );
-
 echo $pessoa;
 
 $paciente = new Paciente(
@@ -97,7 +103,6 @@ $paciente = new Paciente(
     '1234567', // RG
     1 // ID do paciente
 );
-
 echo $paciente;
 
 $Funcionario = new Funcionario(
@@ -112,7 +117,6 @@ $Funcionario = new Funcionario(
     "SP",
     2500.00
 );
-
 echo $Funcionario;
 
 $orcamento = new Orcamento(
@@ -123,20 +127,18 @@ $orcamento = new Orcamento(
     [$procedimento], // Procedimentos (substitua pelos procedimentos reais)
     100.00 // Valor total (substitua pelo valor real)
   );
-
-  echo $orcamento;
+echo $orcamento;
 
 $tratamento = new Tratamento(1, $paciente, $dentista, new DateTime("16:00"), [$procedimento], 100.00, "Cartão");
-
-
+echo $tratamento;
 
 $data = new DateTime('2023-10-05');
 $horario = new DateTime('14:30:00');
 $duracao = new DateTime('01:00:00');
 $detalhamento = "Consulta de rotina";
 
-$ExecucaoDoTratamento = new ExecucaoDoTratamento($tratamento, $data, $horario, $duracao, $detalhamento, $dentista);
-
+$ExecucaoDoTratamento = new ExecucaoDoTratamento($tratamento, $procedimento_realizado, $data, $horario, $duracao, $detalhamento, $dentistaExecutor, $status);
+echo $ExecucaoDoTratamento;
 
 
 echo $cliente;
