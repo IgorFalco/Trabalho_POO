@@ -7,11 +7,13 @@ class Procedimento extends persist{
     protected $nome_proced;
     protected $descricao_proced;
     protected $valor_proced;
+    protected $especialidades = [];
 
-    public function __construct(string $nome_proced, string $descricao_proced, int $valor_proced){
+    public function __construct(string $nome_proced, string $descricao_proced, int $valor_proced, array $_especialidades){
         $this->nome_proced = $nome_proced;
         $this->descricao_proced = $descricao_proced;
         $this->valor_proced = $valor_proced;
+        $this->especialidades = $_especialidades;
     }
 
 
@@ -27,6 +29,10 @@ class Procedimento extends persist{
 
     public function getValorProced(){
         return $this->valor_proced;
+    }
+
+    public function getEspecialidades(){
+        return $this->especialidades;
     }
 
 
