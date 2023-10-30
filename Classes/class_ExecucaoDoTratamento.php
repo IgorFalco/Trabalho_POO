@@ -10,20 +10,20 @@ class ExecucaoDoTratamento extends persist
     private $horario;
     private $duracao;
     private $detalhamento;
-    private $dentisaExecutor;
+    private $dentistaExecutor;
     private $status;
 
-    public function __construct(Tratamento $_tratamento, Procedimento $_procedimento, DateTime $_data, DateTime $_horario, DateTime $_duracao, string $_Detalhamento, Dentista $_dentistaExecutor)
+    public function __construct(Tratamento $_tratamento, Procedimento $_procedimento, DateTime $_data, DateTime $_horario, DateTime $_duracao, string $_detalhamento, Dentista $_dentistaExecutor)
     {
-        $intersect = array_intersect($_dentisaExecutor->getEspec(), $_procedimento->getEspecialidades());
+        $intersect = array_intersect($_dentistaExecutor->getEspec(), $_procedimento->getEspecialidades());
         if( empty($intersect) == 0 ){
             $this->tratamento = $_tratamento;
             $this->procedimento_realizado = $_procedimento;
             $this->data = $_data;
             $this->horario = $_horario;
-            $this->detalhamento = $_duracao;
-            $this->detalhamento = $_Detalhamento;
-            $this->dentisaExecutor = $_dentistaExecutor;
+            $this->duracao = $_duracao;
+            $this->detalhamento = $_detalhamento;
+            $this->dentistaExecutor = $_dentistaExecutor;
             $this->status = FALSE;
         }
         else{
@@ -40,3 +40,5 @@ class ExecucaoDoTratamento extends persist
         return "ExecucaoDoTratamento.txt";
     }
 }
+
+

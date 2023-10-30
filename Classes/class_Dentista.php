@@ -34,9 +34,9 @@ class Dentista extends Pessoa
     return $this->cro;
   }
 
-  public function getEspec(): Especialidades
+  public function getEspec(): array
   {
-    return $this->especialidade;
+    return $this->especialidade->getEspec();
   }
 
   public function getEndereco(): array

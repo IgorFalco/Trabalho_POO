@@ -13,6 +13,11 @@ class Especialidades extends persist
         $this->percentDentistaParceiro = $_percentDentistaParceiro;
     }
 
+    public function getEspec()
+    {
+        return [$this-> nome];
+    }
+
     static public function getFilename()
     {
         return "Especialidades.txt";
