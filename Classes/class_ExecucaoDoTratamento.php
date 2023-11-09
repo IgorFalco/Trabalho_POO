@@ -1,7 +1,7 @@
 <?php
-include_once('../global.php');
+include_once('global.php');
 
-class ExecucaoDoTratamento extends persist
+class ExecucaoDoProcedimento extends persist
 {
 
     private $tratamento;
@@ -31,9 +31,13 @@ class ExecucaoDoTratamento extends persist
         }
     }
 
-    public function Tratamento_Realizado(){
+    public function Procedimento_Realizado(){
         $this->status = TRUE;
     }
+
+    // public function RelatorioDePagamento(Tratamento $tratamento){
+
+    // }
 
     static public function getFilename()
     {

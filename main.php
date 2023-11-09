@@ -137,7 +137,7 @@ $horario = new DateTime('14:30:00');
 $duracao = new DateTime('01:00:00');
 $detalhamento = "Consulta de rotina";
 
-$ExecucaoDoTratamento = new ExecucaoDoTratamento($tratamento, $procedimento_realizado, $data, $horario, $duracao, $detalhamento, $dentistaExecutor, $status);
+$ExecucaoDoTratamento = new ExecucaoDoProcedimento($tratamento, $procedimento_realizado, $data, $horario, $duracao, $detalhamento, $dentistaExecutor, $status);
 echo $ExecucaoDoTratamento;
 
 
