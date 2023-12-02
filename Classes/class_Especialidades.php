@@ -1,21 +1,19 @@
 <?php
-include_once('global.php');
+include_once('./global.php');
 
 class Especialidades extends persist
 {
 
-    private $nome;
-    private $percentDentistaParceiro;
+    private string $nome;
 
-    public function __construct(String $_nome, float $_percentDentistaParceiro)
+    public function __construct(String $_nome)
     {
         $this->nome = $_nome;
-        $this->percentDentistaParceiro = $_percentDentistaParceiro;
     }
 
     public function getEspec()
     {
-        return [$this-> nome];
+        return $this-> nome;
     }
 
     static public function getFilename()

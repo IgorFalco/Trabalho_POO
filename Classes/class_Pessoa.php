@@ -1,6 +1,6 @@
 <?php
 
-include_once('global.php');
+include_once('./global.php');
 
 class Pessoa extends persist{
   protected $nome;
@@ -15,7 +15,7 @@ class Pessoa extends persist{
 
   static public function getFilename()
     {
-        return "Orcamento.txt";
+        return "Pessoa.txt";
     }
 }
 ?>
