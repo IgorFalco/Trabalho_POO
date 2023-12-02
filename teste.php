@@ -72,6 +72,3 @@ $novoFuncionario = new Funcionario(
     'MG',
     12345.67
 );
-
-echo $novoFuncionario->getCPF();
-?>

@@ -22,6 +22,8 @@ class Funcionario extends Pessoa
     $this->salariofixo = $salariofixo;
   }
 
+  //gets e sets
+
   public function getCPF(): string
   {
     return $this->cpf;
