@@ -20,6 +20,18 @@ $dentista = new Dentista(
     'Estado Y'
 );
 
+$novoFuncionario = new Funcionario(
+    'joao',
+    'joao@gmail.com',
+    '31983333333',
+    '099123123123',
+    'Rua dos Astecas',
+    '2771',
+    'Santa Monica',
+    'BH',
+    'MG',
+    12345.67
+);
 
-
+echo $novoFuncionario->getCPF();
 ?>
