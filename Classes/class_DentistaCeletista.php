@@ -1,15 +1,15 @@
 <?php
 
-include_once('global.php');
+include_once('./global.php');
 
 class DentistaCeletista extends Dentista
 {
 
   protected $salario;
 
-  public function __construct(string $nome, string $email, string $telefone, string $cpf, string $cro, Especialidades $especialidade, float $salario, string $logradouro, string $numero, string $bairro, string $cidade, string $estado)
+  public function __construct(string $nome, string $email, string $telefone, string $cpf, string $cro, Especialidades $especialidade, float $porcentagem_, string $logradouro, string $numero, string $bairro, string $cidade, string $estado, float $salario)
   {
-    parent::__construct($nome, $email, $telefone, $cpf, $cro, $especialidade, $logradouro, $numero, $bairro, $cidade, $estado);
+    parent::__construct($nome, $email, $telefone, $cpf, $cro, $especialidade, $porcentagem_, $logradouro, $numero, $bairro, $cidade, $estado);
     $this->salario = $salario;
   }
 
