@@ -1,13 +1,25 @@
 <?php
-$array1 = array("a" => "green", "ared", "blue");
-$array2 = array("b" => "green", "yellow", "red");
-$result = array_intersect($array1, $array2);
-print_r($result);
-if(empty($result) == 1){
-    echo "Vazio";
-}
-if(empty($result) == 0){
-    echo "Não Vazio";
-}
-echo "\n";
+
+include_once('global.php');
+
+$especialidades = new Especialidades(
+    "Ortodentista"
+);
+$dentista = new Dentista(
+    'Dra. Maria',
+    'maria@example.com',
+    '987-654-3210',
+    '98765432101',
+    'CROSP54321',
+    $especialidades,
+    10.0,
+    'Casa',
+    '456',
+    'Centro',
+    'Cidade B',
+    'Estado Y'
+);
+
+
+
 ?>
