@@ -17,4 +17,23 @@ class FormaDePagamento
         $this->taxa = $_taxa;
         $this->numeroDeParcelas = $_numeroDeParcelas;
     }
+
+    //getters e setters
+
+    public function getNome(): string
+    {
+        return $this->nome;
+    }
+
+    public function getTaxa(): float
+    {
+        return $this->taxa;
+    }
+
+    public function get_numeroDeParcelas(): int
+    {
+        return $this->numeroDeParcelas;
+    }
 }
+
+

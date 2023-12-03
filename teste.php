@@ -72,3 +72,37 @@ $novoFuncionario = new Funcionario(
     'MG',
     12345.67
 );
+
+
+$dataNascimentoPaciente = new DateTime('19-11-2001');
+$dataHoje = new DateTime();
+
+
+$_paciente = new Paciente(
+    'pedro',
+    'pedro@gmail.com',
+    '31983333333',
+    $dataNascimentoPaciente,
+    '16167543',
+    1234
+);
+
+
+$procedimentos = ['Remoção do Siso', 'Limpeza Geral'];
+
+
+$novoOrcamento = new Orcamento(
+    3333,
+    $_paciente,
+    $_dentista,
+    $dataHoje,
+    $procedimentos,
+    420.69
+);
+
+
+$novaFormaDePagamento = new FormaDePagamento(
+    'Cartão de Crédito', 
+    0.012, 
+    3
+);

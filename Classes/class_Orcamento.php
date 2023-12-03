@@ -24,9 +24,8 @@ class Orcamento extends persist
         $this->valorTotal = $valorTotal;
     }
 
-    public function AprovarOrcamento(bool $respostaAprovado, String $formaDePagamento): Tratamento
+    public function AprovarOrcamento(bool $respostaAprovado, String $formaDePagamento): ?Tratamento
     {
-
         if ($respostaAprovado) {
             $tratamentoAprovado = new Tratamento($this->id, $this->paciente, $this->dentistaResponsavel, $this->dataOrcamento, $this->procedimentos, $this->valorTotal, $formaDePagamento);
             return $tratamentoAprovado;
