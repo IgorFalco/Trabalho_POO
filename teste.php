@@ -99,6 +99,8 @@ $consulta_avaliacao = new ConsultaAvaliacao($paciente, "aaaaaa", 150, $especiali
 $orcamento2 = $consulta_avaliacao->gerarOrcamento(1, $dentista_celet, new DateTime('2010-05-15 10:30'), $vetor_proc);
 echo $orcamento2;
 ?>
+<<<<<<< HEAD
+=======
 
 $novoFuncionario = new Funcionario(
     'joao',
@@ -146,3 +148,4 @@ $novaFormaDePagamento = new FormaDePagamento(
     0.012, 
     3
 );
+>>>>>>> 43bf4e0e3b5e460ed9be1bcd625b0b61097aff96
