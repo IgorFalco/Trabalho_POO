@@ -13,9 +13,7 @@ class Cliente extends Pessoa
     parent::__construct($nome, $email, $telefone);
     $this->cpf = $cpf;
     $this->rg = $rg;
-    foreach ($_pacientes as $item) {
-      $this->pacientes[] = $item;
-    }
+    $this->pacientes = $_pacientes;
   }
 
   public function getcpf(): string
@@ -45,7 +43,7 @@ class Cliente extends Pessoa
 
   public function AddPaciente(Paciente $_novoPaciente)
   {
-    $this->pacientes[] = $_novoPaciente;
+    array_push($this->pacientes, $_novoPaciente);
   }
 
   public function ExcluirPacientePeloID(int $idPaciente)

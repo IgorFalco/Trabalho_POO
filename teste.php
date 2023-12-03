@@ -65,3 +65,49 @@ $procedimento1 = new Procedimento(
     100, // Valor do procedimento
     ["Ortodentista", "Clinico Geral"]
 );
+
+
+$procedimento2 = new Procedimento(
+    'Limpeza Dental 2',
+    'Limpeza dos dentes e remoção de placas',
+    100, // Valor do procedimento
+    ["Ortodentista", "Clinico Geral"]
+);
+
+
+$procedimento3 = new Procedimento(
+    'Limpeza Dental 3',
+    'Limpeza dos dentes e remoção de placas',
+    100, // Valor do procedimento
+    ["Ortodentista", "Clinico Geral"]
+);
+
+$vetor_procedimentos = [$procedimento1, $procedimento2, $procedimento3];
+
+$cliente1 = new Cliente(
+    "Igor",
+    "igortsfalco@gmail.com",
+    "32991504152",
+    "12017998648",
+    "18886231",
+    []
+);
+
+
+$paciente = new Paciente(
+    'Maria Santos',
+    'maria@example.com',
+    '987-654-3210',
+    new DateTime('1990-05-15'), // Data de nascimento
+    '1234567', // RG
+    1,// ID do paciente
+    $cliente1
+);
+
+$consulta_avaliacao = new ConsultaAvaliacao(
+    $paciente,
+    "Descricao x",
+    150,
+    [],
+    new DateTime('2010-06-02')
+);
