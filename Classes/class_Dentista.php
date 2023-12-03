@@ -42,7 +42,7 @@ class Dentista extends Pessoa
 
   public function getEspec(): array
   {
-    return $this->especialidade->getEspec();
+    return $this->especialidade;
   }
 
   public function getEndereco(): array

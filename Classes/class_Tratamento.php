@@ -5,7 +5,7 @@ include_once('global.php');
 class Tratamento extends Orcamento
 {
 
-    private $formaDePagamento;
+    protected $formaDePagamento;
 
     public function __construct(int $_id, Paciente $_paciente, Dentista $_dentista, DateTime $_data, array $_procedimento, float $_valorTotal, string $_formaDePagamento)
     {
