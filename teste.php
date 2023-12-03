@@ -59,7 +59,14 @@ $DentistaParcerio = new DentistaParceiro(
     'Estado Y'
 );
 
+$procedimento1 = new Procedimento(
+    'Limpeza Dental',
+    'Limpeza dos dentes e remoção de placas',
+    100, // Valor do procedimento
+    ["Ortodentista", "Clinico Geral"]
+);
 
+<<<<<<< HEAD
 $novoFuncionario = new Funcionario(
     'joao',
     'joao@gmail.com',
@@ -106,3 +113,38 @@ $novaFormaDePagamento = new FormaDePagamento(
     0.012, 
     3
 );
+=======
+$procedimento2 = new Procedimento(
+    'Limpeza Dental 2',
+    'Limpeza dos dentes e remoção de placas',
+    100, // Valor do procedimento
+    ["Ortodentista", "Clinico Geral"]
+);
+
+$procedimento3 = new Procedimento(
+    'Limpeza Dental 3',
+    'Limpeza dos dentes e remoção de placas',
+    150, // Valor do procedimento
+    ["Ortodentista", "Clinico Geral"]
+);
+
+$paciente = new Paciente(
+    'Maria Santos',
+    'maria@example.com',
+    '987-654-3210',
+    new DateTime('1990-05-15'), // Data de nascimento
+    '1234567', // RG
+    1 // ID do paciente
+);
+
+
+$vetor_proc = [$procedimento1, $procedimento2, $procedimento3];
+
+$orcamento = new Orcamento(1, $paciente, $dentista_celet, new DateTime('2010-05-15'), $vetor_proc);
+
+$consulta_avaliacao = new ConsultaAvaliacao($paciente, "aaaaaa", 150, $especialidades, new DateTime('2010-05-15 06:30'));
+
+$orcamento2 = $consulta_avaliacao->gerarOrcamento(1, $dentista_celet, new DateTime('2010-05-15 10:30'), $vetor_proc);
+echo $orcamento2;
+?>
+>>>>>>> eaab7b429f8e6a3c8b158585a513cab5138d5eb5

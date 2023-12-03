@@ -1,6 +1,6 @@
 <?php
 
-include_once('global.php');
+include_once('./global.php');
 
 class Orcamento extends persist
 {
@@ -12,16 +12,17 @@ class Orcamento extends persist
     protected $procedimentos = [];
     protected $valorTotal;
 
-    public function __construct(int $_id, Paciente $_paciente, Dentista $_dentista, DateTime $_Data, array $_procedimento, float $valorTotal)
+    public function __construct(int $_id, Paciente $_paciente, Dentista $_dentista, DateTime $_Data, array $_procedimento)
     {
         $this->id = $_id;
         $this->paciente = $_paciente;
         $this->dentistaResponsavel = $_dentista;
         $this->dataOrcamento = $_Data;
+        $this->procedimentos = $_procedimento;
+        $this->valorTotal = 0;
         foreach ($_procedimento as $item) {
-            $this->procedimentos[] = $item;
+            $this->valorTotal += $item->getValorProced();
         }
-        $this->valorTotal = $valorTotal;
     }
 
     public function AprovarOrcamento(bool $respostaAprovado, String $formaDePagamento): ?Tratamento
@@ -53,7 +54,7 @@ class Orcamento extends persist
     {
         return $this->procedimentos;
     }
-    public function getValorTotal(): int
+    public function getValorTotal(): float
     {
         return $this->valorTotal;
     }
