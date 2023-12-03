@@ -99,3 +99,53 @@ $consulta_avaliacao = new ConsultaAvaliacao($paciente, "aaaaaa", 150, $especiali
 $orcamento2 = $consulta_avaliacao->gerarOrcamento(1, $dentista_celet, new DateTime('2010-05-15 10:30'), $vetor_proc);
 echo $orcamento2;
 ?>
+<<<<<<< HEAD
+=======
+
+$novoFuncionario = new Funcionario(
+    'joao',
+    'joao@gmail.com',
+    '31983333333',
+    '099123123123',
+    'Rua dos Astecas',
+    '2771',
+    'Santa Monica',
+    'BH',
+    'MG',
+    12345.67
+);
+
+
+$dataNascimentoPaciente = new DateTime('19-11-2001');
+$dataHoje = new DateTime();
+
+
+$_paciente = new Paciente(
+    'pedro',
+    'pedro@gmail.com',
+    '31983333333',
+    $dataNascimentoPaciente,
+    '16167543',
+    1234
+);
+
+
+$procedimentos = ['Remoção do Siso', 'Limpeza Geral'];
+
+
+$novoOrcamento = new Orcamento(
+    3333,
+    $_paciente,
+    $_dentista,
+    $dataHoje,
+    $procedimentos,
+    420.69
+);
+
+
+$novaFormaDePagamento = new FormaDePagamento(
+    'Cartão de Crédito', 
+    0.012, 
+    3
+);
+>>>>>>> 43bf4e0e3b5e460ed9be1bcd625b0b61097aff96
