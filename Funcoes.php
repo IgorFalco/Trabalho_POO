@@ -1,6 +1,5 @@
 <?php
 include_once('global.php');
-include_once('Index.php');
 
 function calculaCustoMensal(int $mes, int $ano): float
 {
@@ -497,7 +496,7 @@ function escolhaFuncoes(string $funcaoEscolhida)
         case "Logout":
             $autenticacao = Autenticacao::getInstance();
             $autenticacao->logout();
-            main();
+            exit;
             break;
     }
 }

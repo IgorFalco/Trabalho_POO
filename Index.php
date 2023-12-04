@@ -82,8 +82,20 @@ function atualizaFuncionalidades()
 
 function main()
 {
+    // $Perfil = new Perfil("Administrador",[
+    //     "CalculaCustoMensal",
+    //     "CadastrarDentista",
+    //     "CadastrarCliente",
+    //     "CadastrarPaciente",
+    //     "CadastrarDentistaParceiro",
+    //     "CadastrarNovoOrcamento",
+    //     "CadastrarProcedimentos",
+    //     "Logout"
+    // ]);
+    // $user = new Usuario("Admim", "Admim", "Administrador@gmail.com", $Perfil);
     $funcao = fazerLogin();
 
     escolhaFuncoes($funcao);
 }
 
+main();
