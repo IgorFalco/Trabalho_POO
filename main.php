@@ -50,6 +50,11 @@ function fazerLogin()
 
 function main()
 {
+    cadastrarDentistaManualmente();
+    cadastrarClienteManualmente();
+    cadastrarPacienteManualmente();
     cadastrarProcedimento();
+    cadastrarDentistaParceiroManualmente();
+    cadastrarNovoOrcamentoManualmente();
 }
 main();

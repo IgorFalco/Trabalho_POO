@@ -8,16 +8,14 @@ class Dentista extends Funcionario
     protected $especialidade;
     protected $procedimentos_realizados = [];
     protected $agenda;
-    protected $usuario;
 
-    public function __construct(string $nome, string $email, string $telefone, string $cpf, string $cro, Especialidade $especialidade, float $salario, string $logradouro, string $numero, string $bairro, string $cidade, string $estado, string $login, string $senha, Perfil $perfil)
+
+    public function __construct(string $nome, string $email, string $telefone, string $cpf, string $cro, Especialidade $especialidade, float $salario, string $logradouro, string $numero, string $bairro, string $cidade, string $estado)
     {
         parent::__construct($nome, $email, $telefone, $cpf, $logradouro, $numero, $bairro, $cidade, $estado, $salario);
 
         $this->especialidade = $especialidade;
         $this->cro = $cro;
-
-        $this->usuario = $this->criaUsuario($login, $senha, $email, $perfil);
     }
 
     public function addAgenda(Agenda $agenda)
@@ -49,10 +47,7 @@ class Dentista extends Funcionario
         return $this->procedimentos_realizados;
     }
 
-    public function getUsuario()
-    {
-        return $this->usuario;
-    }
+   
 
     static public function getFilename()
     {

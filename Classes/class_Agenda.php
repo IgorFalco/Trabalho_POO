@@ -83,6 +83,11 @@ class Agenda extends persist
         return $this->agendaMensal;
     }
 
+    public function getDentista()
+    {
+        return $this->dentista;
+    }
+
 
     public static function getFilename()
     {

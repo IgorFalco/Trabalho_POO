@@ -7,10 +7,12 @@ class DentistaParceiro extends Dentista
 
     private $valorPorcentagem;
     private $listaSalarios = [];
-    public function __construct(float $valorPorcentagem, string $nome, string $email, string $telefone, string $cpf, string $cro, Especialidade $especialidade, float $salario, string $logradouro, string $numero, string $bairro, string $cidade, string $estado, string $login, string $senha, Perfil $perfil, Agenda $agenda)
+    private $usuario;
+    public function __construct(float $valorPorcentagem, string $nome, string $email, string $telefone, string $cpf, string $cro, Especialidade $especialidade, float $salario, string $logradouro, string $numero, string $bairro, string $cidade, string $estado, string $login, string $senha, Perfil $perfil)
     {
-        parent::__construct($nome, $email, $telefone, $cpf, $cro, $especialidade, $salario, $logradouro, $numero, $bairro, $cidade, $estado, $login, $senha, $perfil,  $agenda);
+        parent::__construct($nome, $email, $telefone, $cpf, $cro, $especialidade, $salario, $logradouro, $numero, $bairro, $cidade, $estado);
         $this->valorPorcentagem = $valorPorcentagem;
+        $this->usuario = $this->criaUsuario($login, $senha, $email, $perfil);
     }
 
     public function calcularSalarioMensal(int $mes, int $ano): float
@@ -38,6 +40,10 @@ class DentistaParceiro extends Dentista
     public function getPorcentagem(): float
     {
         return $this->valorPorcentagem;
+    }
+    public function getUsuario()
+    {
+        return $this->usuario;
     }
 
     public function getLista(): array

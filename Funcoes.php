@@ -1,6 +1,216 @@
 <?php
 include_once('global.php');
 
+
+function calculaCustoMensal(int $mes, int $ano): float
+{
+    $salarioTotal = 0;
+    $receitaTotal = 0;
+
+    // Dentistas
+    $dentistas = Dentista::getRecords();
+    foreach ($dentistas as $dentista) {
+        $salarioTotal += $dentista->getSalario();
+    }
+
+    // Dentistas Parceiros
+    $dentistasParceiros = DentistaParceiro::getRecords();
+    foreach ($dentistasParceiros as $dentistaParceiro) {
+        $salarioTotal += $dentistaParceiro->calcularSalarioMensal($mes, $ano);
+    }
+
+    // Auxiliares
+    $auxiliares = Auxiliares::getRecords();
+    foreach ($auxiliares as $auxiliar) {
+        $salarioTotal += $auxiliar->getSalario();
+    }
+
+    // Secretários
+    $secretarios = Secretarios::getRecords();
+    foreach ($secretarios as $secretario) {
+        $salarioTotal += $secretario->getSalario();
+    }
+
+    // Carregar os dados existentes dos tratamentos
+    $tratamentos = Tratamento::getRecords();
+
+
+
+    // Iterar sobre os tratamentos
+    foreach ($tratamentos as $tratamento) {
+        // Verificar se o tratamento foi quitado no mês e ano desejados
+        if ($tratamento->getQuitado() && $tratamento->getDataPagamento()->format('m') == $mes && $tratamento->getDataPagamento()->format('Y') == $ano) {
+            // Adicionar a receita do tratamento à receita total
+            $receitaTotal += $tratamento->calculaValores();
+        }
+    }
+
+    return $receitaTotal - $salarioTotal;
+}
+
+function cadastrarDentistaManualmente()
+{
+    // Exibindo opções disponíveis para especialidade
+    $especialidades = Especialidade::getRecords();
+    echo "Especialidades disponíveis:\n";
+    foreach ($especialidades as $index => $especialidade) {
+        echo "$index. {$especialidade->getNome()}\n";
+    }
+    $especialidadeEscolhida = readline("Escolha a especialidade (digite o número correspondente): ");
+
+
+
+    // Obtendo dados adicionais do usuário
+    $cro = readline("CRO: ");
+
+    // Criar array com todos os dados
+    $dadosDentista = [
+        'nome' => readline("Nome: "),
+        'email' => readline("Email: "),
+        'telefone' => readline("Telefone: "),
+        'cpf' => readline("CPF: "),
+        'cro' => $cro,
+        'especialidade' => $especialidades[$especialidadeEscolhida],
+        'salario' => readline("Salário: "),
+        'logradouro' => readline("Logradouro: "),
+        'numero' => readline("Número: "),
+        'bairro' => readline("Bairro: "),
+        'cidade' => readline("Cidade: "),
+        'estado' => readline("Estado: "),
+        'login' => readline("Login: "),
+        'senha' => readline("Senha: "),
+    ];
+
+    cadastrarDentista($dadosDentista);
+
+    echo "Dentista cadastrado com sucesso!\n";
+}
+
+function cadastrarDentista(array $dadosDentista)
+{
+    $dentista = new Dentista(
+        $dadosDentista['nome'],
+        $dadosDentista['email'],
+        $dadosDentista['telefone'],
+        $dadosDentista['cpf'],
+        $dadosDentista['cro'],
+        $dadosDentista['especialidade'],
+        $dadosDentista['salario'],
+        $dadosDentista['logradouro'],
+        $dadosDentista['numero'],
+        $dadosDentista['bairro'],
+        $dadosDentista['cidade'],
+        $dadosDentista['estado'],
+        $dadosDentista['login'],
+        $dadosDentista['senha'],
+        $dadosDentista['perfil']
+    );
+    $dentista->save();
+}
+
+function cadastrarClienteManualmente()
+{
+    // Obtendo dados do usuário
+    $dadosCliente = [
+        'nome' => readline("Nome: "),
+        'email' => readline("Email: "),
+        'telefone' => readline("Telefone: "),
+        'cpf' => readline("CPF: "),
+        'rg' => readline("RG: "),
+    ];
+
+    cadastrarCliente($dadosCliente);
+}
+
+function cadastrarCliente(array $dadosCliente)
+{
+    $cliente = new Cliente(
+        $dadosCliente['nome'],
+        $dadosCliente['email'],
+        $dadosCliente['telefone'],
+        $dadosCliente['cpf'],
+        $dadosCliente['rg'],
+        []
+    );
+
+    $cliente->save();
+
+    // Exibindo mensagem de confirmação
+    echo "Cliente cadastrado com sucesso!\n";
+}
+
+function cadastrarPacienteManualmente()
+{
+    // Obtendo dados do paciente
+    $dadosPaciente = [
+        'nome' => readline("Nome: "),
+        'email' => readline("Email: "),
+        'telefone' => readline("Telefone: "),
+        'data_nascimento' => readline("Data de Nascimento (formato: Y-m-d): "),
+        'rg' => readline("RG: "),
+    ];
+
+    cadastrarPaciente($dadosPaciente);
+
+    echo "Paciente cadastrado com sucesso!\n";
+}
+
+function cadastrarPaciente(array $dadosPaciente)
+{
+    // Obtendo responsáveis financeiros disponíveis
+    $responsaveisFinanceiros = getResponsaveisFinanceiros();
+
+    // Verificando se existem responsáveis financeiros
+    if (empty($responsaveisFinanceiros)) {
+        echo "Não há responsáveis financeiros disponíveis. Cadastre um responsável financeiro primeiro.\n";
+        return;
+    }
+
+    // Exibindo responsáveis financeiros disponíveis
+    echo "Responsáveis Financeiros Disponíveis:\n";
+    foreach ($responsaveisFinanceiros as $index => $responsavel) {
+        echo "$index. " . $responsavel->getNome() . "\n";
+    }
+
+    // Solicitando ao usuário escolher um responsável financeiro
+    $indiceResponsavel = (int)readline("Escolha o número correspondente ao responsável financeiro: ");
+
+    // Verificando se o índice é válido
+    if (!isset($responsaveisFinanceiros[$indiceResponsavel])) {
+        echo "Índice inválido. Operação cancelada.\n";
+        return;
+    }
+
+    // Obtendo o responsável financeiro escolhido
+    $responsavelEscolhido = $responsaveisFinanceiros[$indiceResponsavel];
+
+    // Criando objeto de data de nascimento
+    $dataNascimento = DateTime::createFromFormat('Y-m-d', $dadosPaciente['data_nascimento']);
+
+    // Criando o objeto do paciente
+    $paciente = new Paciente(
+        $dadosPaciente['nome'],
+        $dadosPaciente['email'],
+        $dadosPaciente['telefone'],
+        $dataNascimento,
+        $dadosPaciente['rg'],
+        $responsavelEscolhido
+    );
+
+    $paciente->save();
+
+    // Exibindo mensagem de confirmação
+    echo "Paciente cadastrado com sucesso!\n";
+}
+
+function getResponsaveisFinanceiros()
+{
+    // Obtendo responsáveis financeiros do arquivo
+    $responsaveisFinanceiros = Cliente::getRecords();
+
+    return $responsaveisFinanceiros;
+}
+
 function cadastrarProcedimento()
 {
     // Obtém a lista de especialidades
@@ -54,49 +264,168 @@ function cadastrarProcedimento()
 
     echo "Procedimento cadastrado com sucesso!\n";
 };
-
-function calculaCustoMensal(int $mes, int $ano): float
+function cadastrarDentistaParceiroManualmente()
 {
-    $salarioTotal = 0;
-    $receitaTotal = 0;
 
-    // Dentistas
-    $dentistas = Dentista::getRecords();
-    foreach ($dentistas as $dentista) {
-        $salarioTotal += $dentista->getSalario();
+    $especialidades = Especialidade::getRecords();
+    echo "Especialidades disponíveis:\n";
+    foreach ($especialidades as $index => $especialidade) {
+        echo "$index. {$especialidade->getNome()}\n";
+    }
+    $especialidadeEscolhida = readline("Escolha a especialidade (digite o número correspondente): ");
+
+    // Exibindo opções disponíveis para perfil
+    $perfis = Perfil::getRecords();
+    echo "Perfis disponíveis:\n";
+    foreach ($perfis as $index => $perfil) {
+        echo "$index. {$perfil->getNome()}\n";
+    }
+    $perfilEscolhido = readline("Escolha o perfil (digite o número correspondente): ");
+
+    // Obtendo dados do dentista parceiro
+    $dadosDentistaParceiro = [
+        'valorPorcentagem' => (float)readline("Valor da Porcentagem: "),
+        'nome' => readline("Nome: "),
+        'email' => readline("Email: "),
+        'telefone' => readline("Telefone: "),
+        'cpf' => readline("CPF: "),
+        'cro' => readline("CRO: "),
+        'especialidade' => [$especialidadeEscolhida], // Considerando que você tenha um método para obter especialidades disponíveis
+        'salario' => (float)readline("Salário: "),
+        'logradouro' => readline("Logradouro: "),
+        'numero' => readline("Número: "),
+        'bairro' => readline("Bairro: "),
+        'cidade' => readline("Cidade: "),
+        'estado' => readline("Estado: "),
+        'login' => readline("Login: "),
+        'senha' => readline("Senha: "),
+        'perfil' => $perfilEscolhido, // Considerando que você tenha um método para obter perfis disponíveis
+    ];
+
+    cadastrarDentistaParceiro($dadosDentistaParceiro);
+
+    echo "Dentista Parceiro cadastrado com sucesso!\n";
+}
+
+function cadastrarDentistaParceiro(array $dadosDentistaParceiro)
+{
+
+
+    // Criando objeto de perfil
+    $perfil = new Perfil($dadosDentistaParceiro['perfil'], []); // Substitua Perfil pela classe correta
+
+    // Criando objeto de dentista parceiro
+    $dentistaParceiro = new DentistaParceiro(
+        $dadosDentistaParceiro['valorPorcentagem'],
+        $dadosDentistaParceiro['nome'],
+        $dadosDentistaParceiro['email'],
+        $dadosDentistaParceiro['telefone'],
+        $dadosDentistaParceiro['cpf'],
+        $dadosDentistaParceiro['cro'],
+        $dadosDentistaParceiro['especialidade'],
+        $dadosDentistaParceiro['salario'],
+        $dadosDentistaParceiro['logradouro'],
+        $dadosDentistaParceiro['numero'],
+        $dadosDentistaParceiro['bairro'],
+        $dadosDentistaParceiro['cidade'],
+        $dadosDentistaParceiro['estado'],
+        $dadosDentistaParceiro['login'],
+        $dadosDentistaParceiro['senha'],
+        $perfil,
+    );
+
+    // Criando objeto de agenda
+    $agenda = new Agenda($dentistaParceiro); // Substitua Agenda pela classe correta
+    $dentistaParceiro->addAgenda($agenda);
+
+    // Salvando dentista parceiro no arquivo
+    $dentistaParceiro->save();
+
+    // Exibindo mensagem de confirmação
+    echo "Dentista Parceiro cadastrado com sucesso!\n";
+}
+
+function cadastrarNovoOrcamentoManualmente()
+{
+    $paciente = Paciente::getRecords();
+    echo "Pacientes disponíveis:\n";
+    foreach ($paciente as $index => $paciente) {
+        echo "$index. {$paciente->getNome()}\n";
+    }
+    $pacienteEscolhido = readline("Escolha o paciente (digite o número correspondente): ");
+
+    echo "O dentista é parceiro\n?";
+
+    $escolha = readline("1. Sim\n 2.Não \n");
+
+    switch ($escolha) {
+        case 1:
+            $dentista = Dentista::getRecords();
+            echo "Dentistas disponíveis:\n";
+            foreach ($paciente as $index => $paciente) {
+                echo "$index. {$paciente->getNome()}\n";
+            }
+            break;
+        case 2:
+            $dentista = DentistaParceiro::getRecords();
+            echo "Dentistas Parceiros disponíveis:\n";
+            foreach ($paciente as $index => $paciente) {
+                echo "$index. {$paciente->getNome()}\n";
+            }
+            break;
     }
 
-    // Dentistas Parceiros
-    $dentistasParceiros = DentistaParceiro::getRecords();
-    foreach ($dentistasParceiros as $dentistaParceiro) {
-        $salarioTotal += $dentistaParceiro->calcularSalarioMensal($mes, $ano);
+    // Obtendo dados para o novo orçamento
+    $dadosOrcamento = [
+        'paciente' => $pacienteEscolhido,
+        'dentista' => $dentista,
+        'procedimentos' => selecionarProcedimentos(),
+        'dataOrcamento' => readline("Digite a data do orçamento (Formato: YYYY-MM-DD): "),
+    ];
+
+    cadastrarNovoOrcamento($dadosOrcamento);
+
+    echo "Orçamento cadastrado com sucesso!\n";
+}
+
+function selecionarProcedimentos()
+{
+    // Obter procedimentos disponíveis usando o método getRecords da classe Procedimento
+    $procedimentos = Procedimento::getRecords();
+
+    $procedimentosSelecionados = [];
+
+    echo "Escolha os procedimentos (Digite os números separados por vírgula):\n";
+    foreach ($procedimentos as $index => $procedimento) {
+        echo "{$index }. {$procedimento->getNome()}\n";
     }
 
-    // Auxiliares
-    $auxiliares = Auxiliares::getRecords();
-    foreach ($auxiliares as $auxiliar) {
-        $salarioTotal += $auxiliar->getSalario();
-    }
+    $input = readline("Digite os números dos procedimentos selecionados: ");
+    $indicesSelecionados = explode(',', $input);
 
-    // Secretários
-    $secretarios = Secretarios::getRecords();
-    foreach ($secretarios as $secretario) {
-        $salarioTotal += $secretario->getSalario();
-    }
-
-    // Carregar os dados existentes dos tratamentos
-    $tratamentos = Tratamento::getRecords();
-
-
-
-    // Iterar sobre os tratamentos
-    foreach ($tratamentos as $tratamento) {
-        // Verificar se o tratamento foi quitado no mês e ano desejados
-        if ($tratamento->getQuitado() && $tratamento->getDataPagamento()->format('m') == $mes && $tratamento->getDataPagamento()->format('Y') == $ano) {
-            // Adicionar a receita do tratamento à receita total
-            $receitaTotal += $tratamento->calculaValores();
+    // Adicionar procedimentos selecionados ao array final
+    foreach ($indicesSelecionados as $indice) {
+        $indice = intval($indice) - 1;
+        if (isset($procedimentos[$indice])) {
+            $procedimentosSelecionados[] = $procedimentos[$indice];
         }
     }
 
-    return $receitaTotal - $salarioTotal;
+    return $procedimentosSelecionados;
+}
+
+function cadastrarNovoOrcamento(array $dadosOrcamento)
+{
+    // Obter paciente e dentista responsável usando o índice fornecido
+    $paciente = $dadosOrcamento['paciente'];
+    $dentista = $dadosOrcamento['dentista'];
+
+    // Obter procedimentos selecionados
+    $procedimentos = $dadosOrcamento['procedimentos'];
+
+    // Criar objeto de orçamento
+    $orcamento = new Orcamento($paciente, $dentista, new DateTime($dadosOrcamento['dataOrcamento']), $procedimentos);
+
+    // Salvar orçamento no arquivo
+    $orcamento->save();
 }
