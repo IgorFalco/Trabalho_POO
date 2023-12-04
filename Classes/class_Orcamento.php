@@ -22,6 +22,7 @@ class Orcamento extends persist
         foreach ($_procedimento as $item) {
             $this->valorTotal += $item->getValor();
         }
+        $this->save();
     }
 
     public function AprovarOrcamento(bool $respostaAprovado, array $formaDePagamento): ?Tratamento

@@ -5,22 +5,27 @@ include_once('global.php');
 class Dentista extends Funcionario
 {
     protected $cro;
-    protected $especialidade;
+    protected $especialidades = [];
     protected $procedimentos_realizados = [];
     protected $agenda;
 
 
-    public function __construct(string $nome, string $email, string $telefone, string $cpf, string $cro, Especialidade $especialidade, float $salario, string $logradouro, string $numero, string $bairro, string $cidade, string $estado)
+    public function __construct(string $nome, string $email, string $telefone, string $cpf, string $cro, array $especialidade, float $salario, string $logradouro, string $numero, string $bairro, string $cidade, string $estado)
     {
         parent::__construct($nome, $email, $telefone, $cpf, $logradouro, $numero, $bairro, $cidade, $estado, $salario);
 
-        $this->especialidade = $especialidade;
+        $this->especialidades = $especialidade;
         $this->cro = $cro;
     }
 
     public function addAgenda(Agenda $agenda)
     {
         $this->agenda = $agenda;
+    }
+
+    public function getAgenda()
+    {
+        return $this->agenda;
     }
 
     public function addProcedimento(ExecucaoDoProcedimento $procedimentoRealizado)
@@ -40,7 +45,7 @@ class Dentista extends Funcionario
 
     public function getEspecialidade()
     {
-        return $this->especialidade;
+        return $this->especialidades;
     }
     public function getProcedimentos()
     {

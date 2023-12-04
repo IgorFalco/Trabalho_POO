@@ -1,0 +1,12 @@
+{
+    "funcoes": [
+        "CalculaCustoMensal",
+        "CadastrarDentista",
+        "CadastrarCliente",
+        "CadastrarPaciente",
+        "CadastrarDentistaParceiro",
+        "CadastrarNovoOrcamento",
+        "CadastrarProcedimentos",
+        "Logout"
+    ]
+}

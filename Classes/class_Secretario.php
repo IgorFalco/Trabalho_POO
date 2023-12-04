@@ -2,7 +2,7 @@
 
 include_once('global.php');
 
-class Secretarios extends Funcionario
+class Secretario extends Funcionario
 {
 
     public function __construct(string $nome, string $email, string $telefone, string $cpf, float $salario, string $logradouro, string $numero, string $bairro, string $cidade, string $estado)

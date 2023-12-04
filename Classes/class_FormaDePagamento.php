@@ -7,17 +7,17 @@ class FormaDePagamento extends persist
 {
 
     private $nome;
-    private $valor;
     private $taxa;
+    private $valor;
     private $numeroDeParcelas;
 
 
-    public function __construct(string $_nome, float $_taxa, int $_numeroDeParcelas, float $valor)
+    public function __construct(string $_nome, float $_taxa, int $_numeroDeParcelas)
     {
         $this->nome = $_nome;
-        $this->valor = $valor;
-        $this->taxa = $_taxa * $_numeroDeParcelas;
+        $this->taxa = $_taxa;
         $this->numeroDeParcelas = $_numeroDeParcelas;
+        $this->save();
     }
 
     static public function getFilename()
@@ -32,10 +32,16 @@ class FormaDePagamento extends persist
         return $this->nome;
     }
 
-    public function getValor(): string
+    public function getValor(): float
     {
         return $this->valor;
     }
+
+    public function setValor(float $valor)
+    {
+        $this->valor = $valor;
+    }
+
 
     public function getTaxa(): float
     {

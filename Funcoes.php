@@ -1,6 +1,6 @@
 <?php
 include_once('global.php');
-
+include_once('Index.php');
 
 function calculaCustoMensal(int $mes, int $ano): float
 {
@@ -18,7 +18,6 @@ function calculaCustoMensal(int $mes, int $ano): float
     foreach ($dentistasParceiros as $dentistaParceiro) {
         $salarioTotal += $dentistaParceiro->calcularSalarioMensal($mes, $ano);
     }
-
     // Auxiliares
     $auxiliares = Auxiliares::getRecords();
     foreach ($auxiliares as $auxiliar) {
@@ -26,7 +25,7 @@ function calculaCustoMensal(int $mes, int $ano): float
     }
 
     // Secretários
-    $secretarios = Secretarios::getRecords();
+    $secretarios = Secretario::getRecords();
     foreach ($secretarios as $secretario) {
         $salarioTotal += $secretario->getSalario();
     }
@@ -35,11 +34,11 @@ function calculaCustoMensal(int $mes, int $ano): float
     $tratamentos = Tratamento::getRecords();
 
 
-
     // Iterar sobre os tratamentos
     foreach ($tratamentos as $tratamento) {
+        
         // Verificar se o tratamento foi quitado no mês e ano desejados
-        if ($tratamento->getQuitado() && $tratamento->getDataPagamento()->format('m') == $mes && $tratamento->getDataPagamento()->format('Y') == $ano) {
+        if ($tratamento->getDataPagamento()->format('m') == $mes && $tratamento->getDataPagamento()->format('Y') == $ano) {
             // Adicionar a receita do tratamento à receita total
             $receitaTotal += $tratamento->calculaValores();
         }
@@ -248,8 +247,7 @@ function cadastrarProcedimento()
     $numeroConsultas = intval(readline());
 
     echo "Duração do procedimento (em minutos): ";
-    $duracao = new DateTime();
-    $duracao->add(new DateInterval('PT' . intval(readline()) . 'M'));
+    $duracao = intval(readline());
 
     // Cria o objeto Procedimento
     $proc = new Procedimento($nome, $descricao, $valor, $especialidadesEscolhidas, $numeroConsultas, $duracao);
@@ -466,4 +464,40 @@ function cadastrarNovoOrcamento(array $dadosOrcamento)
 
     // Salvar orçamento no arquivo
     $orcamento->save();
+}
+
+function escolhaFuncoes(string $funcaoEscolhida)
+{
+    switch ($funcaoEscolhida) {
+        case "CalculaCustoMensal":
+
+            $mes = (int)readline("Digite o número do mês: ");
+            $ano = (int)readline("Digite o número do ano: ");
+            echo "Custo Mensal: " . calculaCustoMensal($mes, $ano);
+            break;
+        case "CadastrarDentista":
+            cadastrarDentistaManualmente();
+            break;
+
+        case "CadastrarDentistaParceiro":
+            cadastrarDentistaParceiroManualmente();
+            break;
+        case "CadastrarCliente":
+            cadastrarClienteManualmente();
+            break;
+        case "CadastrarPaciente":
+            cadastrarPacienteManualmente();
+            break;
+        case "CadastrarNovoOrcamento":
+            cadastrarNovoOrcamentoManualmente();
+            break;
+        case "CadastrarProcedimento":
+            cadastrarProcedimento();
+            break;
+        case "Logout":
+            $autenticacao = Autenticacao::getInstance();
+            $autenticacao->logout();
+            main();
+            break;
+    }
 }

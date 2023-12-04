@@ -14,6 +14,7 @@ class Usuario extends persist
         $this->senha = $senha;
         $this->email = $email;
         $this->perfil = $perfil;
+        $this->save();
     }
 
     public function getLogin(): string

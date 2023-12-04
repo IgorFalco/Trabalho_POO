@@ -25,6 +25,7 @@ class ExecucaoDoProcedimento extends persist
             $this->horario = $horario;
             $this->dentistaExecutor = $dentistaExecutor;
             $this->status = FALSE;
+            $this->save();
         } else {
             echo "Esse dentista não pode realizar esse procedimento\n";
         }

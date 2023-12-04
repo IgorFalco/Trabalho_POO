@@ -20,6 +20,7 @@ abstract class Funcionario extends Pessoa
             'Estado' => $estado
         ];
         $this->salario = $salario;
+        $this->save();
     }
 
     abstract static protected function criaUsuario(string $login, string $senha, string $email, Perfil $perfil);

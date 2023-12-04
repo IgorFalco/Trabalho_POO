@@ -1,4 +1,6 @@
 <?php
+$TaxaImposto = 20;
+global $TaxaImposto;
     function autoloader($pClassName) {
         //echo __NAMESPACE__;
         $path = __DIR__ . '/Classes/' . $pClassName . '.php';

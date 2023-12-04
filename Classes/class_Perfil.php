@@ -11,6 +11,7 @@ class Perfil extends persist
     {
         $this->nome = $_nome;
         $this->arrayFuncionalidades = $_arrayFuncionalidades;
+        $this->save();
     }
 
     public function getNome(): string

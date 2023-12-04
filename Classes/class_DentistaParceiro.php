@@ -8,7 +8,7 @@ class DentistaParceiro extends Dentista
     private $valorPorcentagem;
     private $listaSalarios = [];
     private $usuario;
-    public function __construct(float $valorPorcentagem, string $nome, string $email, string $telefone, string $cpf, string $cro, Especialidade $especialidade, float $salario, string $logradouro, string $numero, string $bairro, string $cidade, string $estado, string $login, string $senha, Perfil $perfil)
+    public function __construct(float $valorPorcentagem, string $nome, string $email, string $telefone, string $cpf, string $cro, array $especialidade, float $salario, string $logradouro, string $numero, string $bairro, string $cidade, string $estado, string $login, string $senha, Perfil $perfil)
     {
         parent::__construct($nome, $email, $telefone, $cpf, $cro, $especialidade, $salario, $logradouro, $numero, $bairro, $cidade, $estado);
         $this->valorPorcentagem = $valorPorcentagem;

@@ -12,7 +12,7 @@ class Procedimento extends persist
     private $duracao;
     private $especialidades = [];
 
-    public function __construct(string $nome, string $descricao, float $valor, array $_especialidades, int $numeroConsultas, DateTime $duracao)
+    public function __construct(string $nome, string $descricao, float $valor, array $_especialidades, int $numeroConsultas, int $duracao)
     {
         $this->nome = $nome;
         $this->descricao = $descricao;
@@ -20,6 +20,7 @@ class Procedimento extends persist
         $this->especialidades = $_especialidades;
         $this->numeroConsultas = $numeroConsultas;
         $this->duracao = $duracao;
+        $this->save();
     }
 
     public function getValor()

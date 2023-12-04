@@ -11,6 +11,7 @@ class Especialidade extends persist
     {
         $this->nome = $nome;
         $this->porcentagem = $porcentagem;
+        $this->save();
     }
 
     public function getNome()

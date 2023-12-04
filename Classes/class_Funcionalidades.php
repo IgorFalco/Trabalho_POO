@@ -8,6 +8,7 @@ class Funcionalidades extends persist
     public function __construct(string $_nome)
     {
         $this->nome = $_nome;
+        $this->save();
     }
 
     public function getNome(): string

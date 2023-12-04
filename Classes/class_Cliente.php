@@ -14,6 +14,7 @@ class Cliente extends Pessoa
         $this->cpf = $cpf;
         $this->rg = $rg;
         $this->pacientes = $_pacientes;
+        $this->save();
     }
 
     public function getCpf(): string
@@ -29,5 +30,10 @@ class Cliente extends Pessoa
     public function getPacientes(): array
     {
         return $this->pacientes;
+    }
+
+    public function addPaciente(Paciente $paciente)
+    {
+        $this->pacientes[] = $paciente;
     }
 }

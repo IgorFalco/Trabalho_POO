@@ -7,18 +7,21 @@ class ConsultaAvaliacao extends persist
     private $paciente;
     private $dentistaAvaliador;
     private $valorConsulta;
-    private $Data_Horario;
+    private $Data;
+    private $Horario;
     private $duracao_min;
 
 
-    public function __construct(Paciente $paciente, Dentista $dentistaAvaliador, float $valorConsulta, DateTime $data_horario)
+    public function __construct(Paciente $paciente, Dentista $dentistaAvaliador, float $valorConsulta, DateTime $data_horario, string $Horario)
     {
         $this->paciente = $paciente;
         $this->dentistaAvaliador = $dentistaAvaliador;
         $this->valorConsulta = $valorConsulta;
-        $this->Data_Horario = $data_horario;
+        $this->Data = $data_horario;
+        $this->Horario = $Horario;
         $this->duracao_min = clone $data_horario;
         $this->duracao_min->add(new DateInterval('PT30M'));
+        $this->save();
     }
 
     static public function getFilename()
@@ -37,9 +40,13 @@ class ConsultaAvaliacao extends persist
         return $this->valorConsulta;
     }
 
-    public function getData_Horario(): DateTime
+    public function getData(): DateTime
     {
-        return $this->Data_Horario;
+        return $this->Data;
+    }
+    public function getHorario(): string
+    {
+        return $this->Horario;
     }
 
     public function getDuracao(): DateTime
@@ -49,7 +56,7 @@ class ConsultaAvaliacao extends persist
 
     public function gerarOrcamento(array $procedimentos_realizados): Orcamento
     {
-        $orcamento = new Orcamento($this->paciente, $this->dentistaAvaliador, $this->Data_Horario, $procedimentos_realizados);
+        $orcamento = new Orcamento($this->paciente, $this->dentistaAvaliador, $this->Data, $procedimentos_realizados);
         return $orcamento;
     }
 }

@@ -13,6 +13,7 @@ class Pessoa extends persist
         $this->nome = $nome;
         $this->email = $email;
         $this->telefone = $telefone;
+        $this->save();
     }
 
     static public function getFilename()

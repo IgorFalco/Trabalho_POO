@@ -29,12 +29,16 @@ class Tratamento extends Orcamento
             $this->valorFaturado += $procedimentos->getValor();
         }
         foreach ($formaDePagamento as $pagamento) {
-            $this->taxa_cartao[] = $pagamento->getValor() * $pagamento->getTaxa();
+           
+            $this->taxa_cartao[] = $pagamento->getValor() * (($pagamento->getTaxa())/100);
         }
         foreach ($formaDePagamento as $pagamento) {
             $this->listapagamento_efetuado[$pagamento->getNome()] = false;
         }
+
+        $this->save();
     }
+    
 
     public function marcaExecucao(Procedimento $procedimento, DateTime $data, DateTime $horario, Dentista $dentistaExecutor)
     {
