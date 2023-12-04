@@ -8,41 +8,66 @@ class ExecucaoDoProcedimento extends persist
     private $procedimento_realizado;
     private $data;
     private $horario;
-    private $duracao;
-    private $detalhamento;
     private $dentistaExecutor;
     private $status;
 
-    public function __construct(Tratamento $_tratamento, Procedimento $_procedimento, DateTime $_data, DateTime $_horario, DateTime $_duracao, string $_detalhamento, Dentista $_dentistaExecutor)
+    public function __construct(Tratamento $tratamento, Procedimento $procedimento, DateTime $data, DateTime $horario, Dentista $dentistaExecutor)
     {
-        $intersect = array_intersect($_dentistaExecutor->getEspec(), $_procedimento->getEspecialidades());
-        if( empty($intersect) == 0 ){
-            $this->tratamento = $_tratamento;
-            $this->procedimento_realizado = $_procedimento;
-            $this->data = $_data;
-            $this->horario = $_horario;
-            $this->duracao = $_duracao;
-            $this->detalhamento = $_detalhamento;
-            $this->dentistaExecutor = $_dentistaExecutor;
+        $aux = false;
+        foreach ($procedimento->getEspecialidades() as $especialidadesPossiveis) {
+            if ($dentistaExecutor->getEspecialidade() == $especialidadesPossiveis)
+                $aux = true;
+        }
+        if ($aux) {
+            $this->tratamento = $tratamento;
+            $this->procedimento_realizado = $procedimento;
+            $this->data = $data;
+            $this->horario = $horario;
+            $this->dentistaExecutor = $dentistaExecutor;
             $this->status = FALSE;
-        }
-        else{
-            echo "Esse dentista não pode realizar esse procedimento";
+        } else {
+            echo "Esse dentista não pode realizar esse procedimento\n";
         }
     }
 
-    public function Procedimento_Realizado(){
+    public function Procedimento_Realizado()
+    {
         $this->status = TRUE;
+        $this->dentistaExecutor->addProcedimento($this);
     }
-
-    // public function RelatorioDePagamento(Tratamento $tratamento){
-
-    // }
 
     static public function getFilename()
     {
         return "ExecucaoDoTratamento.txt";
     }
+
+    public function getTratamento(): Tratamento
+    {
+        return $this->tratamento;
+    }
+
+    public function getProcedimentoRealizado(): Procedimento
+    {
+        return $this->procedimento_realizado;
+    }
+
+    public function getData(): DateTime
+    {
+        return $this->data;
+    }
+
+    public function getHorario(): DateTime
+    {
+        return $this->horario;
+    }
+
+    public function getDentistaExecutor(): Dentista
+    {
+        return $this->dentistaExecutor;
+    }
+
+    public function getStatus(): bool
+    {
+        return $this->status;
+    }
 }
-
-

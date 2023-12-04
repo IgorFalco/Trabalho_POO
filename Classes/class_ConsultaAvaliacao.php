@@ -1,75 +1,55 @@
 <?php
 
-include_once('./global.php');
+include_once('global.php');
 
-class ConsultaAvaliacao{
-    protected $paciente;
-    protected $descricao;
-    protected $valorConsulta;
-    protected $especialidades = [];
-    protected $Data_Horario;
-    protected $duracao_min = 30;
+class ConsultaAvaliacao extends persist
+{
+    private $paciente;
+    private $dentistaAvaliador;
+    private $valorConsulta;
+    private $Data_Horario;
+    private $duracao_min;
 
 
-    public function __construct(Paciente $_paciente, string $_descricao, float $_valorConsulta, $_especialidades, DateTime $data_horario_)
+    public function __construct(Paciente $paciente, Dentista $dentistaAvaliador, float $valorConsulta, DateTime $data_horario)
     {
-        $this->paciente = $_paciente;
-        $this->descricao = $_descricao;
-        $this->valorConsulta = $_valorConsulta;
-        $this->especialidades = $_especialidades;
-        $this->Data_Horario = $data_horario_;
-        
+        $this->paciente = $paciente;
+        $this->dentistaAvaliador = $dentistaAvaliador;
+        $this->valorConsulta = $valorConsulta;
+        $this->Data_Horario = $data_horario;
+        $this->duracao_min = clone $data_horario;
+        $this->duracao_min->add(new DateInterval('PT30M'));
+    }
 
+    static public function getFilename()
+    {
+        return "Consultas.txt";
     }
 
     //sets e gets
-    public function getPaciente(){
+    public function getPaciente(): Paciente
+    {
         return $this->paciente;
     }
 
-    public function setPaciente(Paciente $paciente){
-        $this->paciente = $paciente;
-    }
-
-    public function getDescricao(){
-        return $this->descricao;
-    }
-
-    public function setDescricao(string $descricao_){
-        $this->descricao = $descricao_;
-    }
-
-    public function getValorConsulta(){
+    public function getValorConsulta(): float
+    {
         return $this->valorConsulta;
     }
 
-    public function setValorConsulta(float $valorConsulta_){
-        $this->valorConsulta = $valorConsulta_;
-    }
-
-    public function getEspecialidades(){
-        return $this->especialidades;
-    }
-
-    public function setEspecialidades(array $especialidades_){
-        $this->especialidades = $especialidades_;
-    }
-
-    public function getData_Horario(): DateTime{
+    public function getData_Horario(): DateTime
+    {
         return $this->Data_Horario;
     }
 
-    public function setData_Horario(DateTime $data_horario_){
-        $this->Data_Horario = $data_horario_;
-    }
-
-    public function getDuracao(){
+    public function getDuracao(): DateTime
+    {
         return $this->duracao_min;
     }
 
-    public function gerarOrcamento(int $id, Dentista $dentista_exec, DateTime $data_orcamento, $procedimentos_realizados)
+    public function gerarOrcamento(array $procedimentos_realizados): Orcamento
     {
-        $orcamento = new Orcamento($id, $this->paciente, $dentista_exec, $data_orcamento, $procedimentos_realizados);
+        $orcamento = new Orcamento($this->paciente, $this->dentistaAvaliador, $this->Data_Horario, $procedimentos_realizados);
         return $orcamento;
     }
 }

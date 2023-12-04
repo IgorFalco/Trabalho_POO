@@ -1,90 +1,61 @@
 <?php
 
-include_once('./global.php');
+include_once('global.php');
 
-class Dentista extends Pessoa
+class Dentista extends Funcionario
 {
-  protected $cpf;
-  protected $cro;
-  protected $especialidade = [];
-  protected $endereco = [];
-  protected $procedimentos_realizados = [];
+    protected $cro;
+    protected $especialidade;
+    protected $procedimentos_realizados = [];
+    protected $agenda;
+    protected $usuario;
 
-  public function __construct(string $nome, string $email, string $telefone, string $cpf, string $cro, Especialidades $especialidade_, float $porcentagem, string $logradouro, string $numero, string $bairro, string $cidade, string $estado)
-  {
-    parent::__construct($nome, $email, $telefone);
-    $this->endereco = [
-      'logradouro' => $logradouro,
-      'numero' => $numero,
-      'bairro' => $bairro,
-      'cidade' => $cidade,
-      'estado' => $estado
-    ];
-    $this->cpf = $cpf;
-    $this->cro = $cro;
-    $this->especialidade[$especialidade_->getEspec()] = $porcentagem;
-  }
+    public function __construct(string $nome, string $email, string $telefone, string $cpf, string $cro, Especialidade $especialidade, float $salario, string $logradouro, string $numero, string $bairro, string $cidade, string $estado, string $login, string $senha, Perfil $perfil)
+    {
+        parent::__construct($nome, $email, $telefone, $cpf, $logradouro, $numero, $bairro, $cidade, $estado, $salario);
 
+        $this->especialidade = $especialidade;
+        $this->cro = $cro;
 
+        $this->usuario = $this->criaUsuario($login, $senha, $email, $perfil);
+    }
 
+    public function addAgenda(Agenda $agenda)
+    {
+        $this->agenda = $agenda;
+    }
 
+    public function addProcedimento(ExecucaoDoProcedimento $procedimentoRealizado)
+    {
+        array_push($this->procedimentos_realizados, $procedimentoRealizado);
+    }
 
-  //gets e sets
-  public function getCPF(): string
-  {
-    return $this->cpf;
-  }
+    static protected function criaUsuario(string $login, string $senha, string $email, Perfil $perfil): Usuario
+    {
+        return new Usuario($login, $senha, $email, $perfil);
+    }
 
-  public function getCRO(): string
-  {
-    return $this->cro;
-  }
+    public function getCro()
+    {
+        return $this->cro;
+    }
 
-  public function getEspec(): array
-  {
-    return $this->especialidade;
-  }
+    public function getEspecialidade()
+    {
+        return $this->especialidade;
+    }
+    public function getProcedimentos()
+    {
+        return $this->procedimentos_realizados;
+    }
 
-  public function getEndereco(): array
-  {
-    return $this->endereco;
-  }
+    public function getUsuario()
+    {
+        return $this->usuario;
+    }
 
-  public function setCPF(string $novo_cpf)
-  {
-    $this->cpf = $novo_cpf;
-  }
-
-  public function setCRO(string $novo_cro)
-  {
-    $this->cro = $novo_cro;
-  }
-
-  public function addEspec(Especialidades $nova_espec, float $porcentagem)
-  {
-    $this->especialidade[$nova_espec->getEspec()] = $porcentagem;
-  }
-
-  public function deletEspec(Especialidades $espec_){
-    unset($this->especialidade[$espec_->getEspec()]);
-  }
-
-  public function setEndereco(string $novo_logradouro, string $novo_numero, string $novo_bairro, string $nova_cidade, string $novo_estado)
-  {
-    $this->endereco = [
-      'logradouro' => $novo_logradouro,
-      'numero' => $novo_numero,
-      'bairro' => $novo_bairro,
-      'cidade' => $nova_cidade,
-      'estado' => $novo_estado
-    ];
-  }
-
-  public function addProcedimento(ExecucaoDoProcedimento $execproc){
-    array_push($this->procedimentos_realizados, $execproc);
-  }
-
-  public function clearProcedimento(ExecucaoDoProcedimento $execproc){
-    $this->procedimentos_realizados = [];
-  }
+    static public function getFilename()
+    {
+        return 'Dentistas.txt';
+    }
 }

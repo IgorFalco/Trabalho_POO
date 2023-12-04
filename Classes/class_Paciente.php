@@ -1,61 +1,59 @@
 <?php
 
-include_once('./global.php');
+include_once('global.php');
+
 class Paciente extends Pessoa
 {
-  protected $data_nascimento;
-  protected $rg;
-  protected $id;
-  protected $responsavel;
-  protected $orcamentos = [];
+    private $data_nascimento;
+    private $rg;
+    private $idPaciente;
+    private $responsavelFinanceiro;
+    private $orcamentos = [];
 
-  public function __construct(string $nome, string $email, string $telefone, DateTime $data_nascimento, string $rg, int $id_ ,Cliente $responsavel_)
-  {
-    parent::__construct($nome, $email, $telefone);
-    $this->data_nascimento = $data_nascimento;
-    $this->rg = $rg;
-    $this->id = $id_;
-    $this->responsavel = $responsavel_;
-  }
+    public function __construct(string $nome, string $email, string $telefone, DateTime $data_nascimento, string $rg, Cliente $responsavel, array $orcamentos = null)
+    {
+        parent::__construct($nome, $email, $telefone);
+        $this->data_nascimento = $data_nascimento;
+        $this->rg = $rg;
+        $this->idPaciente = uniqid('', true);
+        $this->responsavelFinanceiro = $responsavel;
+        if ($orcamentos != null)
+            $this->orcamentos = $orcamentos;
+    }
 
-  public function getDataNascimento(): DateTime
-  {
-    return $this->data_nascimento;
-  }
+    static public function getFilename()
+    {
+        return 'Pacientes.txt';
+    }
 
-  public function getrg(): string
-  {
-    return $this->rg;
-  }
 
-  public function getResponsavel(): int
-  {
-    return $this->responsavel;
-  }
+    public function getDataNascimento()
+    {
+        return $this->data_nascimento;
+    }
 
-  public function getID(){
-    return $this->id;
-  }
+    public function getRg()
+    {
+        return $this->rg;
+    }
 
-  public function setID(int $id_){
-    $this->id = $id_;
-  }
+    public function getIdPaciente()
+    {
+        return $this->idPaciente;
+    }
 
-  public function setDataNascimento(DateTime $nova_data)
-  {
-    $this->data_nascimento = $nova_data;
-  }
+    public function getResponsavel()
+    {
+        return $this->responsavelFinanceiro;
+    }
 
-  public function setrg(string $novo_rg)
-  {
-    $this->rg = $novo_rg;
-  }
+    public function getOrcamentos()
+    {
+        return $this->orcamentos;
+    }
 
-  public function setResponsavel(Cliente $responsavel_){
-    $this->responsavel = $responsavel_;
-  }
-
-  public function addOrcamento(Orcamento $orcamento_){
-    array_push($this->orcamento, $orcamento_);
-  }
+    public function addOrcamento(Orcamento $orcamento_)
+    {
+        array_push($this->orcamentos, $orcamento_);
+    }
 }

@@ -2,7 +2,7 @@
 include_once('global.php');
 
 
-class Perfil
+class Perfil extends persist
 {
     private $arrayFuncionalidades  = [];
     private $nome;
@@ -11,5 +11,25 @@ class Perfil
     {
         $this->nome = $_nome;
         $this->arrayFuncionalidades = $_arrayFuncionalidades;
+    }
+
+    public function getNome(): string
+    {
+        return $this->nome;
+    }
+
+    public function getFuncionalidades(): array
+    {
+        return $this->arrayFuncionalidades;
+    }
+
+    public function addFuncionalidade(Funcionalidades $funcionalidade)
+    {
+        array_push($this->arrayFuncionalidades, $funcionalidade);
+    }
+
+    static public function getFilename()
+    {
+        return 'Perfil.txt';
     }
 }

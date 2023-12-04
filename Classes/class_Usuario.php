@@ -1,31 +1,42 @@
+
 <?php
-    include_once('../global.php');
-    class Usuario extends persist{
 
-        protected $nome;
-        protected $senha;
-        protected $email;
-        //protected $Perfil;
+class Usuario extends persist
+{
+    private $login;
+    private $senha;
+    private $email;
+    private $perfil;
 
-        public function __construct(string $_nome, string $_senha, string $_email)
-        {
-            $this->nome = $_nome;
-            $this->senha = $_senha;
-            $this->email = $_email;
-            //$this->Perfil = $_perfil;
-        }
-
-        static public function login(){
-            $Logar = Usuario_logado::getInstance();
-            return $Logar;
-            
-        }
-
-        static public function getFilename()
-        {
-            return "Usuario.txt";
-        }
-
-
-
+    public function __construct(string $login, string $senha, string $email, Perfil $perfil)
+    {
+        $this->login = $login;
+        $this->senha = $senha;
+        $this->email = $email;
+        $this->perfil = $perfil;
     }
+
+    public function getLogin(): string
+    {
+        return $this->login;
+    }
+
+    public function getSenha(): string
+    {
+        return $this->senha;
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+    public function getPerfil(): Perfil
+    {
+        return $this->perfil;
+    }
+
+    static public function getFilename()
+    {
+        return 'Usuarios.txt';
+    }
+}
