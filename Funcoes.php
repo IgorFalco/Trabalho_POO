@@ -56,12 +56,15 @@ function cadastrarDentistaManualmente()
     foreach ($especialidades as $index => $especialidade) {
         echo "$index. {$especialidade->getNome()}\n";
     }
-    $especialidadeEscolhida = readline("Escolha a especialidade (digite o número correspondente): ");
 
+    $indiceEscolhido = readline("Escolha a especialidade (digite o número correspondente): ");
 
-
-    // Obtendo dados adicionais do usuário
-    $cro = readline("CRO: ");
+    if (isset($especialidades[$indiceEscolhido])) {
+        // Obtendo a especialidade escolhida pelo usuário
+        $especialidadeEscolhida = $especialidades[$indiceEscolhido];
+    } else {
+        echo "Índice inválido. Por favor, escolha um número válido.\n";
+    }
 
     // Criar array com todos os dados
     $dadosDentista = [
@@ -69,7 +72,7 @@ function cadastrarDentistaManualmente()
         'email' => readline("Email: "),
         'telefone' => readline("Telefone: "),
         'cpf' => readline("CPF: "),
-        'cro' => $cro,
+        'cro' => readline("CRO: "),
         'especialidade' => $especialidades[$especialidadeEscolhida],
         'salario' => readline("Salário: "),
         'logradouro' => readline("Logradouro: "),
@@ -158,7 +161,7 @@ function cadastrarPacienteManualmente()
 function cadastrarPaciente(array $dadosPaciente)
 {
     // Obtendo responsáveis financeiros disponíveis
-    $responsaveisFinanceiros = getResponsaveisFinanceiros();
+    $responsaveisFinanceiros = Cliente::getRecords();
 
     // Verificando se existem responsáveis financeiros
     if (empty($responsaveisFinanceiros)) {
@@ -201,14 +204,6 @@ function cadastrarPaciente(array $dadosPaciente)
 
     // Exibindo mensagem de confirmação
     echo "Paciente cadastrado com sucesso!\n";
-}
-
-function getResponsaveisFinanceiros()
-{
-    // Obtendo responsáveis financeiros do arquivo
-    $responsaveisFinanceiros = Cliente::getRecords();
-
-    return $responsaveisFinanceiros;
 }
 
 function cadastrarProcedimento()
@@ -267,20 +262,37 @@ function cadastrarProcedimento()
 function cadastrarDentistaParceiroManualmente()
 {
 
+    // Exibindo opções disponíveis para especialidade
     $especialidades = Especialidade::getRecords();
     echo "Especialidades disponíveis:\n";
     foreach ($especialidades as $index => $especialidade) {
         echo "$index. {$especialidade->getNome()}\n";
     }
-    $especialidadeEscolhida = readline("Escolha a especialidade (digite o número correspondente): ");
+
+    $indiceEscolhido = readline("Escolha a especialidade (digite o número correspondente): ");
+
+    if (isset($especialidades[$indiceEscolhido])) {
+        // Obtendo a especialidade escolhida pelo usuário
+        $especialidadeEscolhida = $especialidades[$indiceEscolhido];
+    } else {
+        echo "Índice inválido. Por favor, escolha um número válido.\n";
+    }
 
     // Exibindo opções disponíveis para perfil
-    $perfis = Perfil::getRecords();
-    echo "Perfis disponíveis:\n";
-    foreach ($perfis as $index => $perfil) {
+    $perfils = Perfil::getRecords();
+    echo "Especialidades disponíveis:\n";
+    foreach ($perfils as $index => $perfil) {
         echo "$index. {$perfil->getNome()}\n";
     }
-    $perfilEscolhido = readline("Escolha o perfil (digite o número correspondente): ");
+
+    $indiceEscolhido = readline("Escolha a especialidade (digite o número correspondente): ");
+
+    if (isset($perfils[$indiceEscolhido])) {
+        // Obtendo a especialidade escolhida pelo usuário
+        $perfilEscolhido = $perfils[$indiceEscolhido];
+    } else {
+        echo "Índice inválido. Por favor, escolha um número válido.\n";
+    }
 
     // Obtendo dados do dentista parceiro
     $dadosDentistaParceiro = [
@@ -347,12 +359,20 @@ function cadastrarDentistaParceiro(array $dadosDentistaParceiro)
 
 function cadastrarNovoOrcamentoManualmente()
 {
-    $paciente = Paciente::getRecords();
-    echo "Pacientes disponíveis:\n";
-    foreach ($paciente as $index => $paciente) {
+    $pacientes = Paciente::getRecords();
+    echo "Especialidades disponíveis:\n";
+    foreach ($pacientes as $index => $paciente) {
         echo "$index. {$paciente->getNome()}\n";
     }
-    $pacienteEscolhido = readline("Escolha o paciente (digite o número correspondente): ");
+
+    $indiceEscolhido = readline("Escolha a especialidade (digite o número correspondente): ");
+
+    if (isset($pacientes[$indiceEscolhido])) {
+        // Obtendo a especialidade escolhida pelo usuário
+        $pacienteEscolhido = $pacientes[$indiceEscolhido];
+    } else {
+        echo "Índice inválido. Por favor, escolha um número válido.\n";
+    }
 
     echo "O dentista é parceiro\n?";
 
@@ -360,17 +380,35 @@ function cadastrarNovoOrcamentoManualmente()
 
     switch ($escolha) {
         case 1:
-            $dentista = Dentista::getRecords();
+            $dentistas = Dentista::getRecords();
             echo "Dentistas disponíveis:\n";
-            foreach ($paciente as $index => $paciente) {
-                echo "$index. {$paciente->getNome()}\n";
+            foreach ($dentistas as $index => $dentista) {
+                echo "$index. {$dentista->getNome()}\n";
+            }
+
+            $indiceEscolhido = readline("Escolha a especialidade (digite o número correspondente): ");
+
+            if (isset($dentista[$indiceEscolhido])) {
+                // Obtendo a especialidade escolhida pelo usuário
+                $dentistaescolhido = $dentista[$indiceEscolhido];
+            } else {
+                echo "Índice inválido. Por favor, escolha um número válido.\n";
             }
             break;
         case 2:
-            $dentista = DentistaParceiro::getRecords();
-            echo "Dentistas Parceiros disponíveis:\n";
-            foreach ($paciente as $index => $paciente) {
-                echo "$index. {$paciente->getNome()}\n";
+            $dentistas = DentistaParceiro::getRecords();
+            echo "Dentistas disponíveis:\n";
+            foreach ($dentistas as $index => $dentista) {
+                echo "$index. {$dentista->getNome()}\n";
+            }
+
+            $indiceEscolhido = readline("Escolha a especialidade (digite o número correspondente): ");
+
+            if (isset($dentista[$indiceEscolhido])) {
+                // Obtendo a especialidade escolhida pelo usuário
+                $dentistaescolhido = $dentista[$indiceEscolhido];
+            } else {
+                echo "Índice inválido. Por favor, escolha um número válido.\n";
             }
             break;
     }
@@ -378,7 +416,7 @@ function cadastrarNovoOrcamentoManualmente()
     // Obtendo dados para o novo orçamento
     $dadosOrcamento = [
         'paciente' => $pacienteEscolhido,
-        'dentista' => $dentista,
+        'dentista' => $dentistaescolhido,
         'procedimentos' => selecionarProcedimentos(),
         'dataOrcamento' => readline("Digite a data do orçamento (Formato: YYYY-MM-DD): "),
     ];
@@ -397,7 +435,7 @@ function selecionarProcedimentos()
 
     echo "Escolha os procedimentos (Digite os números separados por vírgula):\n";
     foreach ($procedimentos as $index => $procedimento) {
-        echo "{$index }. {$procedimento->getNome()}\n";
+        echo "{$index}. {$procedimento->getNome()}\n";
     }
 
     $input = readline("Digite os números dos procedimentos selecionados: ");
