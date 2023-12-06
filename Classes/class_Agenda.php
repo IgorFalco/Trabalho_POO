@@ -87,6 +87,8 @@ class Agenda extends persist
         $disponivel = false;
         $dataFormatada = $inicio->format('Y-m-d');
 
+        
+
         if (isset($this->agendaMensal[$dataFormatada . ' ' . $horario])) {
             $disponivel = false;
         } elseif (isset($this->agendaPadrao[$dataFormatada . ' ' . $horario])) {

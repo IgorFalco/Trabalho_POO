@@ -19,6 +19,7 @@ class Orcamento extends persist
         $this->dentistaResponsavel = $_dentista;
         $this->dataOrcamento = $_Data;
         $this->procedimentos = $_procedimento;
+
         foreach ($_procedimento as $item) {
             $this->valorTotal += $item->getValor();
         }

@@ -93,9 +93,9 @@ function main()
     //     "Logout"
     // ]);
     // $user = new Usuario("Admim", "Admim", "Administrador@gmail.com", $Perfil);
-    $funcao = fazerLogin();
+    // $funcao = fazerLogin();
 
-    escolhaFuncoes($funcao);
+    // escolhaFuncoes($funcao);
 }
 
 main();

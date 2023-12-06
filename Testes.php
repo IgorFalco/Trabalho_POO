@@ -1,7 +1,6 @@
 <?php
 
 include_once('global.php');
-include_once('Funcoes.php');
 
 
 $Perfil = new Perfil("PerfilTeste", [
@@ -11,6 +10,19 @@ $Perfil = new Perfil("PerfilTeste", [
     "CadastrarPaciente",
     "CadastrarDentistaParceiro",
     "CadastrarNovoOrcamento",
+    "CadastrarAgenda",
+    "Logout"
+]);
+
+$PerfilTodas = new Perfil("PerfilTotal", [
+    "CalculaCustoMensal",
+    "CadastrarDentista",
+    "CadastrarCliente",
+    "CadastrarPaciente",
+    "CadastrarDentistaParceiro",
+    "CadastrarNovoOrcamento",
+    "CadastrarAgenda",
+    "CadastrarProcedimento",
     "Logout"
 ]);
 $usuario = new Usuario("UserTeste", "UserTeste", " ", $Perfil);
@@ -22,7 +34,7 @@ $controleAcesso->listarFuncionalidadesDisponiveis();
 if ($controleAcesso->getUser() == null) {
     $login = Autenticacao::getInstance();
 
-    $funcao = $login->login($usuario);
+    $login->login($usuario);
 
     $controleAcesso = new ControleAcesso($usuario);
 
@@ -82,12 +94,22 @@ if ($controleAcesso->getUser() == null) {
         'numeroConsultas' => 1,
         'duracao' => 30,
     ];
-    $controleAcesso->cadastrarProcedimento($Limpeza);
-    $controleAcesso->cadastrarProcedimento($Restauração);
-    $controleAcesso->cadastrarProcedimento($Extração_Comum);
-    $controleAcesso->cadastrarProcedimento($Canal);
-    $controleAcesso->cadastrarProcedimento($Extração_de_Siso);
-    $controleAcesso->cadastrarProcedimento($Clareamento_a_laser);
+    //User sem permissão
+    $LIMPEZACAD = $controleAcesso->cadastrarProcedimento($Limpeza);
+    $controleAcesso->Sair();
+
+    $usuarioPoderoso = new Usuario("ADMIM", "ADMIM", " ", $PerfilTodas);
+
+    $login->login($usuarioPoderoso);
+
+    $controleAcesso = new ControleAcesso($usuarioPoderoso);
+
+    $LIMPEZACAD = $controleAcesso->cadastrarProcedimento($Limpeza);
+    $RESTAURACAOCAD = $controleAcesso->cadastrarProcedimento($Restauração);
+    $EXTRACAOCAD = $controleAcesso->cadastrarProcedimento($Extração_Comum);
+    $CANALCAD = $controleAcesso->cadastrarProcedimento($Canal);
+    $EXTRACAOSISOCAD = $controleAcesso->cadastrarProcedimento($Extração_de_Siso);
+    $CLAREAMENTOLAZERCAD = $controleAcesso->cadastrarProcedimento($Clareamento_a_laser);
 
 
     $Dinheiro = new FormaDePagamento("Dinheiro à Vista", 0, 1);
@@ -145,6 +167,7 @@ if ($controleAcesso->getUser() == null) {
         ],
         ['Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira']
     );
+
     $PARCEIRO->getAgenda()->abrirAgendaPadrao(
         new DateTime('2023-11-01'),
         new DateTime('2023-11-30'),
@@ -172,9 +195,9 @@ if ($controleAcesso->getUser() == null) {
         'nome' => "Paciente",
         'email' => "paciente@gmail.com",
         'telefone' => "32323232323",
-        'data_nascimento' => new DateTime("2010-12-01"),
+        'data_nascimento' => "2010-12-01",
         'rg' => "123131313",
-        'reponsavel' => $CLIENTECADASTRADO,
+        'responsavel' => $CLIENTECADASTRADO,
     ];
 
     $PACIENTECADASTRADO = $controleAcesso->cadastrarPaciente($Paciente);
@@ -192,7 +215,7 @@ if ($controleAcesso->getUser() == null) {
 
     $consultaCLT = [
         'paciente' => $PACIENTECADASTRADO,
-        'dentista' => $PARCEIRO,
+        'dentista' => $CLT,
         'valor' => 0,
         'data' => new DateTime('2023-11-06'),
         'horario' =>  "14:00",
@@ -200,31 +223,39 @@ if ($controleAcesso->getUser() == null) {
 
     $CONSULTAPARCEIRO = $controleAcesso->criarConsulta($consultaParceiro);
     $CONSULTACLT = $controleAcesso->criarConsulta($consultaCLT);
-    
+
+
     if (!$PARCEIRO->getAgenda()->agendarConsulta($CONSULTAPARCEIRO)) {
         $CLT->getAgenda()->agendarConsulta($CONSULTACLT);
 
         $dadosOrcamento = [
             'paciente' => $PACIENTECADASTRADO,
             'dentista' => $CLT,
-            'procedimentos' => [$Limpeza, $Clareamento_a_laser, $Restauração, $Restauração],
+            'procedimentos' => [$LIMPEZACAD, $CLAREAMENTOLAZERCAD, $RESTAURACAOCAD, $RESTAURACAOCAD],
             'dataOrcamento' => $CONSULTACLT->getData(),
         ];
 
         $ORCAMENTOCADASTRADO = $controleAcesso->cadastrarNovoOrcamento($dadosOrcamento);
+
+        
         $Pix->setValor(1135);
         $Crédito_de_3->setValor(1135);
         $TRATAMENTOCADASTRADO = $ORCAMENTOCADASTRADO->AprovarOrcamento(true, [$Pix, $Crédito_de_3]);
         $TRATAMENTOCADASTRADO->confirmaPagamento($Pix, new DateTime('2023-11-06'));
         $TRATAMENTOCADASTRADO->confirmaPagamento($Crédito_de_3, new DateTime('2023-11-06'));
     } else {
+
         $dadosOrcamento = [
             'paciente' => $PACIENTECADASTRADO,
             'dentista' => $PARCEIRO,
-            'procedimentos' => [$Limpeza, $Clareamento_a_laser, $Restauração, $Restauração],
+            'procedimentos' => [$LIMPEZACAD, $CLAREAMENTOLAZERCAD, $RESTAURACAOCAD, $RESTAURACAOCAD],
             'dataOrcamento' => $CONSULTAPARCEIRO->getData(),
         ];
+    
         $ORCAMENTOCADASTRADO = $controleAcesso->cadastrarNovoOrcamento($dadosOrcamento);
+        $TRATAMENTOCADASTRADO = $ORCAMENTOCADASTRADO->AprovarOrcamento(true, [$Pix, $Crédito_de_3]);
+        $TRATAMENTOCADASTRADO->confirmaPagamento($Pix, new DateTime('2023-11-06'));
+        $TRATAMENTOCADASTRADO->confirmaPagamento($Crédito_de_3, new DateTime('2023-11-06'));
     }
 
     echo "Receita final: R$ " . number_format($controleAcesso->calculaCustoMensal(11, 2023), 2, ',', '.') . PHP_EOL;

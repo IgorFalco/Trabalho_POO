@@ -8,6 +8,7 @@ class ControleAcesso
     public function __construct(Usuario $usuario)
     {
         $autenticacao = Autenticacao::getInstance();
+        
         if ($autenticacao->getUsuarioLogado() != null && $usuario == $autenticacao->getUsuarioLogado()) {
             $this->usuarioLogado = $usuario;
         } else {
@@ -27,7 +28,7 @@ class ControleAcesso
         $funcionalidadesDoPerfil = $perfil->getFuncionalidades();
 
         foreach ($funcionalidadesDoPerfil as $funcionalidadePerfil) {
-            if ($funcionalidadePerfil->getNome() === $funcionalidade) {
+            if ($funcionalidadePerfil === $funcionalidade) {
                 return true;
             }
         }
@@ -177,9 +178,6 @@ class ControleAcesso
                 $dadosDentista['bairro'],
                 $dadosDentista['cidade'],
                 $dadosDentista['estado'],
-                $dadosDentista['login'],
-                $dadosDentista['senha'],
-                $dadosDentista['perfil']
             );
 
             // Criando objeto de agenda
@@ -362,7 +360,7 @@ class ControleAcesso
         if ($this->verificaValidadeUsuario("CadastrarProcedimento")) {
 
 
-            return new Procedimento(
+            $procedimento =  new Procedimento(
                 $dadosProcedimento['nome'],
                 $dadosProcedimento['descricao'],
                 $dadosProcedimento['valor'],
@@ -370,6 +368,8 @@ class ControleAcesso
                 $dadosProcedimento['numeroConsultas'],
                 $dadosProcedimento['duracao'],
             );
+
+            return  $procedimento;
         }
     }
     public function cadastrarDentistaParceiroManualmente()
@@ -435,9 +435,7 @@ class ControleAcesso
     public function cadastrarDentistaParceiro(array $dadosDentistaParceiro)
     {
 
-        if (!$this->verificaValidadeUsuario("cadastrarDentista")) return;
-        // Criando objeto de perfil
-        $perfil = new Perfil($dadosDentistaParceiro['perfil'], []); // Substitua Perfil pela classe correta
+        if (!$this->verificaValidadeUsuario("CadastrarDentistaParceiro")) return;
 
         // Criando objeto de dentista parceiro
         $dentistaParceiro = new DentistaParceiro(
@@ -456,7 +454,7 @@ class ControleAcesso
             $dadosDentistaParceiro['estado'],
             $dadosDentistaParceiro['login'],
             $dadosDentistaParceiro['senha'],
-            $perfil,
+            $dadosDentistaParceiro['perfil'],
         );
 
         // Criando objeto de agenda
@@ -573,8 +571,9 @@ class ControleAcesso
         // Obter procedimentos selecionados
         $procedimentos = $dadosOrcamento['procedimentos'];
 
+
         // Criar objeto de orçamento
-        return new Orcamento($paciente, $dentista, new DateTime($dadosOrcamento['dataOrcamento']), $procedimentos);
+        return new Orcamento($paciente, $dentista, $dadosOrcamento['dataOrcamento'], $procedimentos);
     }
 
     public function criarConsulta(array $dadosConsulta)
@@ -586,6 +585,13 @@ class ControleAcesso
         $horario = $dadosConsulta['horario'];
 
         return new ConsultaAvaliacao($paciente,  $dentistaAvaliador,  $valorConsulta,  $data,  $horario);
+    }
+
+    public function Sair()
+    {
+        $autenticacao = Autenticacao::getInstance();
+        $autenticacao->logout();
+        
     }
 
     public function escolhaFuncoes(string $funcaoEscolhida)
