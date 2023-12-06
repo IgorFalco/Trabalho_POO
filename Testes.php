@@ -17,24 +17,78 @@ $usuario = new Usuario("UserTeste", "UserTeste", " ", $Perfil);
 
 $controleAcesso = new ControleAcesso($usuario);
 
-try {
-    $controleAcesso->listarFuncionalidadesDisponiveis();
-} catch (Exception $e) {
-    echo "Erro ao listar funcionalidades, usuário não está logado\n";
-}
+$controleAcesso->listarFuncionalidadesDisponiveis();
+
 if ($controleAcesso->getUser() == null) {
     $login = Autenticacao::getInstance();
 
     $funcao = $login->login($usuario);
 
     $controleAcesso = new ControleAcesso($usuario);
-    $Limpeza = new Procedimento("Limpeza", "", 200, ["Clínica Geral"], 1, 30);
-    $Restauração = new Procedimento("Restauração", "", 185, ["Clínica Geral"], 1, 30);
-    $Extração_Comum = new Procedimento("Extração Comum", "Não inclui dente siso", 280, ["Clínica Geral"], 1, 30);
-    $Canal = new Procedimento("Canal", "", 800, ["Endodontia"], 1, 30);
-    $Extração_de_Siso = new Procedimento("Extração de Siso", "Valor por dente", 400, ["Cirurgia"], 1, 30);
-    $Clareamento_a_laser = new Procedimento("Clareamento a laser", "", 1700, ["Estética"], 1, 30);
-    $Clareamento_de_moldeira = new Procedimento("Clareamento de moldeira", "Clareamento caseiro", 900, ["Estética"], 1, 30);
+
+    $Limpeza = [
+        'nome' => "Limpeza",
+        'descricao' => "",
+        'valor' => 200,
+        'especialidadesEscolhidas' => ["Clínica Geral"],
+        'numeroConsultas' => 1,
+        'duracao' => 30,
+    ];
+    $Restauração = [
+        'nome' => "Restauração",
+        'descricao' => "",
+        'valor' => 185,
+        'especialidadesEscolhidas' => ["Clínica Geral"],
+        'numeroConsultas' => 1,
+        'duracao' => 30,
+    ];
+    $Extração_Comum = [
+        'nome' => "Extração Comum",
+        'descricao' => "Não inclui dente siso",
+        'valor' => 280,
+        'especialidadesEscolhidas' => ["Clínica Geral"],
+        'numeroConsultas' => 1,
+        'duracao' => 30,
+    ];
+    $Canal = [
+        'nome' => "Canal",
+        'descricao' => "",
+        'valor' => 800,
+        'especialidadesEscolhidas' => ["Endodontia"],
+        'numeroConsultas' => 1,
+        'duracao' => 30,
+    ];
+    $Extração_de_Siso = [
+        'nome' => "Extração de Siso",
+        'descricao' => "Valor por dente",
+        'valor' => 400,
+        'especialidadesEscolhidas' => ["Cirurgia"],
+        'numeroConsultas' => 1,
+        'duracao' => 30,
+    ];
+    $Clareamento_a_laser = [
+        'nome' => "Clareamento a laser",
+        'descricao' => "",
+        'valor' => 1700,
+        'especialidadesEscolhidas' => ["Estética"],
+        'numeroConsultas' => 1,
+        'duracao' => 30,
+    ];
+    $Clareamento_de_moldeira = [
+        'nome' => "Clareamento de moldeira",
+        'descricao' => "Clareamento caseiro",
+        'valor' => 900,
+        'especialidadesEscolhidas' => ["Estética"],
+        'numeroConsultas' => 1,
+        'duracao' => 30,
+    ];
+    $controleAcesso->cadastrarProcedimento($Limpeza);
+    $controleAcesso->cadastrarProcedimento($Restauração);
+    $controleAcesso->cadastrarProcedimento($Extração_Comum);
+    $controleAcesso->cadastrarProcedimento($Canal);
+    $controleAcesso->cadastrarProcedimento($Extração_de_Siso);
+    $controleAcesso->cadastrarProcedimento($Clareamento_a_laser);
+
 
     $Dinheiro = new FormaDePagamento("Dinheiro à Vista", 0, 1);
     $Pix = new FormaDePagamento("Pix", 0, 1);
@@ -46,10 +100,44 @@ if ($controleAcesso->getUser() == null) {
     $Crédito_de_5 = new FormaDePagamento("Crédito 2 vezes", 7, 5);
     $Crédito_de_6 = new FormaDePagamento("Crédito 3 vezes", 7, 6);
 
-    $DentistaCLT = new Dentista("JorgeCLT", "clt@gmail.com", "99999-9999", "12345678985", "123456789", ["Clínica Geral", "Endodontia", "Cirurgia"], 5000, "Rua J", "15", "Centro", "BH", "MG");
-    $DentistaParceiro = new DentistaParceiro(40, "JorgeCLT", "clt@gmail.com", "99999-9999", "12345678985", "123456789", ["Clínica Geral", "Estética", "Cirurgia"], 0, "Rua J", "15", "Centro", "BH", "MG", "DentistaParceiro", "Senha123", $Perfil);
-    $agendaClt = new Agenda($DentistaCLT);
-    $agendaClt->abrirAgendaPadrao(
+    $DentistaCLT = [
+        'nome' => "JorgeCLT",
+        'email' => "clt@gmail.com",
+        'telefone' => "99999-9999",
+        'cpf' => "12345678985",
+        'cro' => "123456789",
+        'especialidade' => ["Clínica Geral", "Endodontia", "Cirurgia"],
+        'salario' => 5000,
+        'logradouro' => "Rua J",
+        'numero' => "15",
+        'bairro' => "Centro",
+        'cidade' => "BH",
+        'estado' => "MG",
+    ];
+    $DentistaParceiro = [
+        'valorPorcentagem' => 40,
+        'nome' => "JorgeCLT",
+        'email' => "parceiro@gmail.com",
+        'telefone' => "99999-9999",
+        'cpf' => "12345678985",
+        'cro' => "123456789",
+        'especialidade' => ["Clínica Geral", "Estética", "Cirurgia"],
+        'salario' => 0,
+        'logradouro' => "Rua J",
+        'numero' => "15",
+        'bairro' => "Centro",
+        'cidade' => "BH",
+        'estado' => "MG",
+        'login' => "DentistaParceiro",
+        'senha' => "Senha123",
+        'perfil' => $Perfil,
+    ];
+
+    $CLT = $controleAcesso->cadastrarDentista($DentistaCLT);
+    $PARCEIRO = $controleAcesso->cadastrarDentistaParceiro($DentistaParceiro);
+
+
+    $CLT->getAgenda()->abrirAgendaPadrao(
         new DateTime('2023-11-01'),
         new DateTime('2023-11-30'),
         [
@@ -57,9 +145,7 @@ if ($controleAcesso->getUser() == null) {
         ],
         ['Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira']
     );
-    $DentistaCLT->addAgenda($agendaClt);
-    $agendaParceiro = new Agenda($DentistaParceiro);
-    $agendaParceiro->abrirAgendaPadrao(
+    $PARCEIRO->getAgenda()->abrirAgendaPadrao(
         new DateTime('2023-11-01'),
         new DateTime('2023-11-30'),
         [
@@ -71,26 +157,77 @@ if ($controleAcesso->getUser() == null) {
         ],
         ['Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira']
     );
-    $DentistaParceiro->addAgenda($agendaParceiro);
 
-    $Cliente = new Cliente("Cliente", "cliente@email.com", "32323232", "313131313", "131313131313", []);
-    $Paciente = new Paciente("Paciente", "paciente@gmail.com", "32323232323", new DateTime(2010 - 12 - 01), "123131313", $Cliente);
-    $Cliente->addPaciente($Paciente);
+    $Cliente = [
+        'nome' => "Cliente",
+        'email' => "cliente@email.com",
+        'telefone' => "32323232",
+        'cpf' => "313131313",
+        'rg' => "131313131313",
+    ];
 
-    $consulta = new ConsultaAvaliacao($Paciente, $DentistaParceiro, 0, new DateTime('2023-11-06'), "14:00");
-    if (!$DentistaParceiro->getAgenda()->agendarConsulta($consulta)) {
-        $DentistaCLT->getAgenda()->agendarConsulta($consulta);
-        $orcamento = new Orcamento($Paciente, $DentistaCLT, $consulta->getData(), [$Limpeza, $Clareamento_a_laser, $Restauração, $Restauração]);
+    $CLIENTECADASTRADO = $controleAcesso->cadastrarCliente($Cliente);
+
+    $Paciente = [
+        'nome' => "Paciente",
+        'email' => "paciente@gmail.com",
+        'telefone' => "32323232323",
+        'data_nascimento' => new DateTime("2010-12-01"),
+        'rg' => "123131313",
+        'reponsavel' => $CLIENTECADASTRADO,
+    ];
+
+    $PACIENTECADASTRADO = $controleAcesso->cadastrarPaciente($Paciente);
+
+    $CLIENTECADASTRADO->addPaciente($PACIENTECADASTRADO);
+
+
+    $consultaParceiro = [
+        'paciente' => $PACIENTECADASTRADO,
+        'dentista' => $PARCEIRO,
+        'valor' => 0,
+        'data' => new DateTime('2023-11-06'),
+        'horario' =>  "14:00",
+    ];
+
+    $consultaCLT = [
+        'paciente' => $PACIENTECADASTRADO,
+        'dentista' => $PARCEIRO,
+        'valor' => 0,
+        'data' => new DateTime('2023-11-06'),
+        'horario' =>  "14:00",
+    ];
+
+    $CONSULTAPARCEIRO = $controleAcesso->criarConsulta($consultaParceiro);
+    $CONSULTACLT = $controleAcesso->criarConsulta($consultaCLT);
+    
+    if (!$PARCEIRO->getAgenda()->agendarConsulta($CONSULTAPARCEIRO)) {
+        $CLT->getAgenda()->agendarConsulta($CONSULTACLT);
+
+        $dadosOrcamento = [
+            'paciente' => $PACIENTECADASTRADO,
+            'dentista' => $CLT,
+            'procedimentos' => [$Limpeza, $Clareamento_a_laser, $Restauração, $Restauração],
+            'dataOrcamento' => $CONSULTACLT->getData(),
+        ];
+
+        $ORCAMENTOCADASTRADO = $controleAcesso->cadastrarNovoOrcamento($dadosOrcamento);
         $Pix->setValor(1135);
         $Crédito_de_3->setValor(1135);
-        $tratamento = $orcamento->AprovarOrcamento(true, [$Pix, $Crédito_de_3]);
-        $tratamento->confirmaPagamento($Pix, new DateTime('2023-11-06'));
-        $tratamento->confirmaPagamento($Crédito_de_3, new DateTime('2023-11-06'));
+        $TRATAMENTOCADASTRADO = $ORCAMENTOCADASTRADO->AprovarOrcamento(true, [$Pix, $Crédito_de_3]);
+        $TRATAMENTOCADASTRADO->confirmaPagamento($Pix, new DateTime('2023-11-06'));
+        $TRATAMENTOCADASTRADO->confirmaPagamento($Crédito_de_3, new DateTime('2023-11-06'));
     } else {
-        $orcamento = new Orcamento($Paciente, $DentistaParceiro, $consulta->getData(), [$Limpeza, $Clareamento_a_laser, $Restauração, $Restauração]);
+        $dadosOrcamento = [
+            'paciente' => $PACIENTECADASTRADO,
+            'dentista' => $PARCEIRO,
+            'procedimentos' => [$Limpeza, $Clareamento_a_laser, $Restauração, $Restauração],
+            'dataOrcamento' => $CONSULTAPARCEIRO->getData(),
+        ];
+        $ORCAMENTOCADASTRADO = $controleAcesso->cadastrarNovoOrcamento($dadosOrcamento);
     }
 
-    echo "Receita final: R$ " . number_format(calculaCustoMensal(11, 2023), 2, ',', '.') . PHP_EOL;
+    echo "Receita final: R$ " . number_format($controleAcesso->calculaCustoMensal(11, 2023), 2, ',', '.') . PHP_EOL;
 
 
     $pasta = 'Classes/dataFiles';

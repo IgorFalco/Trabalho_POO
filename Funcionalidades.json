@@ -6,7 +6,8 @@
         "CadastrarPaciente",
         "CadastrarDentistaParceiro",
         "CadastrarNovoOrcamento",
-        "CadastrarProcedimentos",
+        "CadastrarProcedimento",
+        "CadastrarAgenda",
         "Logout"
     ]
 }
