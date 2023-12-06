@@ -8,7 +8,7 @@ class ControleAcesso
     public function __construct(Usuario $usuario)
     {
         $autenticacao = Autenticacao::getInstance();
-        
+
         if ($autenticacao->getUsuarioLogado() != null && $usuario == $autenticacao->getUsuarioLogado()) {
             $this->usuarioLogado = $usuario;
         } else {
@@ -156,8 +156,6 @@ class ControleAcesso
             ];
 
             $this->cadastrarDentista($dadosDentista);
-
-            echo "Dentista cadastrado com sucesso!\n";
         }
     }
 
@@ -184,6 +182,8 @@ class ControleAcesso
             $agenda = new Agenda($dentista);
             $dentista->addAgenda($agenda);
 
+            echo "Dentista cadastrado com sucesso!\n";
+
             return $dentista;
         }
     }
@@ -203,8 +203,6 @@ class ControleAcesso
             ];
 
             $this->cadastrarCliente($dadosCliente);
-
-            echo "Cliente cadastrado com sucesso!\n";
         }
     }
 
@@ -213,7 +211,7 @@ class ControleAcesso
         if ($this->verificaValidadeUsuario("CadastrarCliente")) {
 
 
-            return new Cliente(
+            $cliente =  new Cliente(
                 $dadosCliente['nome'],
                 $dadosCliente['email'],
                 $dadosCliente['telefone'],
@@ -221,6 +219,8 @@ class ControleAcesso
                 $dadosCliente['rg'],
                 []
             );
+            echo "Cliente cadastrado com sucesso!\n";
+            return $cliente;
         }
     }
 
@@ -269,7 +269,7 @@ class ControleAcesso
 
             $this->cadastrarPaciente($dadosPaciente);
 
-            echo "Paciente cadastrado com sucesso!\n";
+            
         }
     }
 
@@ -280,7 +280,7 @@ class ControleAcesso
             $dataNascimento = DateTime::createFromFormat('Y-m-d', $dadosPaciente['data_nascimento']);
 
             // Criando o objeto do paciente
-            return new Paciente(
+            $paciente =  new Paciente(
                 $dadosPaciente['nome'],
                 $dadosPaciente['email'],
                 $dadosPaciente['telefone'],
@@ -288,6 +288,10 @@ class ControleAcesso
                 $dadosPaciente['rg'],
                 $dadosPaciente['responsavel'],
             );
+
+            echo "Paciente cadastrado com sucesso!\n";
+
+            return $paciente;
         }
     }
 
@@ -429,7 +433,7 @@ class ControleAcesso
 
         $this->cadastrarDentistaParceiro($dadosDentistaParceiro);
 
-        echo "Dentista Parceiro cadastrado com sucesso!\n";
+        
     }
 
     public function cadastrarDentistaParceiro(array $dadosDentistaParceiro)
@@ -460,6 +464,8 @@ class ControleAcesso
         // Criando objeto de agenda
         $agenda = new Agenda($dentistaParceiro);
         $dentistaParceiro->addAgenda($agenda);
+
+        echo "Dentista Parceiro cadastrado com sucesso!\n";
 
         return $dentistaParceiro;
     }
@@ -530,8 +536,6 @@ class ControleAcesso
         ];
 
         $this->cadastrarNovoOrcamento($dadosOrcamento);
-
-        echo "Orçamento cadastrado com sucesso!\n";
     }
 
     public function selecionarProcedimentos()
@@ -574,6 +578,8 @@ class ControleAcesso
 
         // Criar objeto de orçamento
         return new Orcamento($paciente, $dentista, $dadosOrcamento['dataOrcamento'], $procedimentos);
+
+        echo "Orçamento cadastrado com sucesso!\n";
     }
 
     public function criarConsulta(array $dadosConsulta)
@@ -585,13 +591,15 @@ class ControleAcesso
         $horario = $dadosConsulta['horario'];
 
         return new ConsultaAvaliacao($paciente,  $dentistaAvaliador,  $valorConsulta,  $data,  $horario);
+
+        echo "Consulta criada!\n";
     }
+
 
     public function Sair()
     {
         $autenticacao = Autenticacao::getInstance();
         $autenticacao->logout();
-        
     }
 
     public function escolhaFuncoes(string $funcaoEscolhida)

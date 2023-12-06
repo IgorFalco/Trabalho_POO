@@ -2,6 +2,8 @@
 
 include_once('global.php');
 
+// Escreva php Testes.php para rodar os testes
+
 
 $Perfil = new Perfil("PerfilTeste", [
     "CalculaCustoMensal",
