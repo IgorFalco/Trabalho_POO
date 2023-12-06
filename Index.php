@@ -1,7 +1,6 @@
 <?php
 
 include_once('global.php');
-include_once('Funcoes.php');
 
 
 function verificaCadastro(string $login, string $senha): ?Usuario
@@ -20,7 +19,7 @@ function verificaCadastro(string $login, string $senha): ?Usuario
     return null;
 }
 
-function fazerLogin(): ?string
+function fazerLogin()
 {
     $autenticacao = Autenticacao::getInstance();
 
@@ -34,26 +33,12 @@ function fazerLogin(): ?string
 
     if ($usuarioAutenticado) {
         if ($autenticacao->login($usuarioAutenticado)) {
-            $fachada = new ControleAcesso($usuarioAutenticado);
-            $funcionalidadesDisponiveis = $fachada->listarFuncionalidadesDisponiveis();
-            echo "Funcionalidades disponíveis:\n";
-            foreach ($funcionalidadesDisponiveis as $index => $funcionalidade) {
-                $indexaux = $index + 1;
-                echo "$indexaux. {$funcionalidade}\n";
-            }
-            $indiceEscolhido = readline("Escolha a funcionalidade (digite o número correspondente): ");
-
-            if (isset($funcionalidadesDisponiveis[$indiceEscolhido - 1])) {
-                // Obtendo a especialidade escolhida pelo usuário
-                return $funcionalidadesDisponiveis[$indiceEscolhido - 1];
-            } else {
-                echo "Índice inválido. Por favor, escolha um número válido.\n";
-            }
-        };
-    } else {
-        echo "Login falhou. Verifique suas credenciais.\n";
-        sleep(2);
-        fazerLogin();
+            echo "Bem vindo " . $usuarioAutenticado->getLogin();
+        } else {
+            echo "Login falhou. Verifique suas credenciais.\n";
+            sleep(2);
+            fazerLogin();
+        }
     }
 }
 
@@ -80,22 +65,57 @@ function atualizaFuncionalidades()
     }
 }
 
+function CleanBanco()
+{
+    //LIMPA O BANCO 
+
+    $pasta = 'Classes/dataFiles';
+    $arquivos = glob($pasta . '/*');
+    foreach ($arquivos as $arquivo) {
+        if (is_file($arquivo)) {
+            unlink($arquivo);
+        }
+    }
+}
+
 function main()
 {
-    // $Perfil = new Perfil("Administrador",[
-    //     "CalculaCustoMensal",
-    //     "CadastrarDentista",
-    //     "CadastrarCliente",
-    //     "CadastrarPaciente",
-    //     "CadastrarDentistaParceiro",
-    //     "CadastrarNovoOrcamento",
-    //     "CadastrarProcedimentos",
-    //     "Logout"
-    // ]);
-    // $user = new Usuario("Admim", "Admim", "Administrador@gmail.com", $Perfil);
-    // $funcao = fazerLogin();
+    CleanBanco(); //LIMPA O BANCO 
 
-    // escolhaFuncoes($funcao);
+    $Perfil = new Perfil("Administrador", [
+        "CalculaCustoMensal",
+        "CadastrarDentista",
+        "CadastrarCliente",
+        "CadastrarPaciente",
+        "CadastrarDentistaParceiro",
+        "CadastrarNovoOrcamento",
+        "CadastrarProcedimentos",
+        "Logout"
+    ]);
+    new Usuario("Admim", "Admim", "Administrador@gmail.com", $Perfil);
+    fazerLogin();
+
+    $autenticacao = Autenticacao::getInstance();
+
+    $Controle = new ControleAcesso($autenticacao->getUsuarioLogado());
+
+    while (1) {
+        $funcionalidadesDisponiveis = $Controle->listarFuncionalidadesDisponiveis();
+        echo "\nFuncionalidades disponíveis:\n";
+        foreach ($funcionalidadesDisponiveis as $index => $funcionalidade) {
+            $indexaux = $index + 1;
+            echo "$indexaux. {$funcionalidade}\n";
+        }
+        $indiceEscolhido = readline("Escolha a funcionalidade (digite o número correspondente): ");
+
+        if (isset($funcionalidadesDisponiveis[$indiceEscolhido - 1])) {
+            // Obtendo a especialidade escolhida pelo usuário
+            $Controle->escolhaFuncoes($funcionalidadesDisponiveis[$indiceEscolhido - 1]);
+        } else {
+            echo "Índice inválido. Por favor, escolha um número válido.\n";
+        }
+    };
 }
 
 main();
+

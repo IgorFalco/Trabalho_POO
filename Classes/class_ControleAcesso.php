@@ -123,19 +123,26 @@ class ControleAcesso
 
             // Exibindo opções disponíveis para especialidade
             $especialidades = Especialidade::getRecords();
-            echo "Especialidades disponíveis:\n";
-            foreach ($especialidades as $index => $especialidade) {
-                echo "$index. {$especialidade->getNome()}\n";
-            }
 
-            $indiceEscolhido = readline("Escolha a especialidade (digite o número correspondente): ");
+            if ($especialidades != null) {
+                echo "Especialidades disponíveis:\n";
+                foreach ($especialidades as $index => $especialidade) {
+                    echo "$index. {$especialidade->getNome()}\n";
+                }
 
-            if (isset($especialidades[$indiceEscolhido])) {
-                // Obtendo a especialidade escolhida pelo usuário
-                $especialidadeEscolhida = $especialidades[$indiceEscolhido];
+                $indiceEscolhido = readline("Escolha a especialidade (digite o número correspondente): ");
+
+                if (isset($especialidades[$indiceEscolhido])) {
+                    // Obtendo a especialidade escolhida pelo usuário
+                    $especialidadeEscolhida = $especialidades[$indiceEscolhido];
+                } else {
+                    echo "Índice inválido. Por favor, escolha um número válido.\n";
+                }
             } else {
-                echo "Índice inválido. Por favor, escolha um número válido.\n";
+                echo "Não há especialidades cadastradas\n";
+                return;
             }
+
 
             // Criar array com todos os dados
             $dadosDentista = [
@@ -268,8 +275,6 @@ class ControleAcesso
             ];
 
             $this->cadastrarPaciente($dadosPaciente);
-
-            
         }
     }
 
@@ -378,26 +383,34 @@ class ControleAcesso
     }
     public function cadastrarDentistaParceiroManualmente()
     {
-        if (!$this->verificaValidadeUsuario("cadastrarDentista")) return;
+        if (!$this->verificaValidadeUsuario("CadastrarDentistaParceiro")) return;
         // Exibindo opções disponíveis para especialidade
         $especialidades = Especialidade::getRecords();
-        echo "Especialidades disponíveis:\n";
-        foreach ($especialidades as $index => $especialidade) {
-            echo "$index. {$especialidade->getNome()}\n";
-        }
 
-        $indiceEscolhido = readline("Escolha a especialidade (digite o número correspondente): ");
+        if ($especialidades != null) {
 
-        if (isset($especialidades[$indiceEscolhido])) {
-            // Obtendo a especialidade escolhida pelo usuário
-            $especialidadeEscolhida = $especialidades[$indiceEscolhido];
+            echo "Especialidades disponíveis:\n";
+            foreach ($especialidades as $index => $especialidade) {
+                echo "$index. {$especialidade->getNome()}\n";
+            }
+
+            $indiceEscolhido = readline("Escolha a especialidade (digite o número correspondente): ");
+
+            if (isset($especialidades[$indiceEscolhido])) {
+                // Obtendo a especialidade escolhida pelo usuário
+                $especialidadeEscolhida = $especialidades[$indiceEscolhido];
+            } else {
+                echo "Índice inválido. Por favor, escolha um número válido.\n";
+            }
         } else {
-            echo "Índice inválido. Por favor, escolha um número válido.\n";
+            echo "Não há especialidades cadastradas\n";
+            return;
         }
+
 
         // Exibindo opções disponíveis para perfil
         $perfils = Perfil::getRecords();
-        echo "Especialidades disponíveis:\n";
+        echo "Perfils disponíveis:\n";
         foreach ($perfils as $index => $perfil) {
             echo "$index. {$perfil->getNome()}\n";
         }
@@ -432,8 +445,6 @@ class ControleAcesso
         ];
 
         $this->cadastrarDentistaParceiro($dadosDentistaParceiro);
-
-        
     }
 
     public function cadastrarDentistaParceiro(array $dadosDentistaParceiro)
@@ -474,18 +485,26 @@ class ControleAcesso
     {
         if (!$this->verificaValidadeUsuario("CadastrarNovoOrcamento")) return;
         $pacientes = Paciente::getRecords();
-        echo "Especialidades disponíveis:\n";
-        foreach ($pacientes as $index => $paciente) {
-            echo "$index. {$paciente->getNome()}\n";
-        }
 
-        $indiceEscolhido = readline("Escolha a especialidade (digite o número correspondente): ");
+        if ($pacientes != null) {
 
-        if (isset($pacientes[$indiceEscolhido])) {
-            // Obtendo a especialidade escolhida pelo usuário
-            $pacienteEscolhido = $pacientes[$indiceEscolhido];
+
+            echo "Pacientes disponíveis:\n";
+            foreach ($pacientes as $index => $paciente) {
+                echo "$index. {$paciente->getNome()}\n";
+            }
+
+            $indiceEscolhido = readline("Escolha o paciente (digite o número correspondente): ");
+
+            if (isset($pacientes[$indiceEscolhido])) {
+                // Obtendo a especialidade escolhida pelo usuário
+                $pacienteEscolhido = $pacientes[$indiceEscolhido];
+            } else {
+                echo "Índice inválido. Por favor, escolha um número válido.\n";
+            }
         } else {
-            echo "Índice inválido. Por favor, escolha um número válido.\n";
+            echo "Não há pacientes cadastrados";
+            return;
         }
 
         echo "O dentista é parceiro\n?";
@@ -495,34 +514,46 @@ class ControleAcesso
         switch ($escolha) {
             case 1:
                 $dentistas = Dentista::getRecords();
-                echo "Dentistas disponíveis:\n";
-                foreach ($dentistas as $index => $dentista) {
-                    echo "$index. {$dentista->getNome()}\n";
-                }
 
-                $indiceEscolhido = readline("Escolha a especialidade (digite o número correspondente): ");
+                if ($dentistas != null) {
+                    echo "Dentistas disponíveis:\n";
+                    foreach ($dentistas as $index => $dentista) {
+                        echo "$index. {$dentista->getNome()}\n";
+                    }
 
-                if (isset($dentista[$indiceEscolhido])) {
-                    // Obtendo a especialidade escolhida pelo usuário
-                    $dentistaescolhido = $dentista[$indiceEscolhido];
+                    $indiceEscolhido = readline("Escolha a especialidade (digite o número correspondente): ");
+
+                    if (isset($dentista[$indiceEscolhido])) {
+                        // Obtendo a especialidade escolhida pelo usuário
+                        $dentistaescolhido = $dentista[$indiceEscolhido];
+                    } else {
+                        echo "Índice inválido. Por favor, escolha um número válido.\n";
+                    }
                 } else {
-                    echo "Índice inválido. Por favor, escolha um número válido.\n";
+                    echo "Não há dentistas cadastrados\n";
+                    return;
                 }
                 break;
             case 2:
                 $dentistas = DentistaParceiro::getRecords();
-                echo "Dentistas disponíveis:\n";
-                foreach ($dentistas as $index => $dentista) {
-                    echo "$index. {$dentista->getNome()}\n";
-                }
+                if ($dentistas != null) {
 
-                $indiceEscolhido = readline("Escolha a especialidade (digite o número correspondente): ");
+                    echo "Dentistas disponíveis:\n";
+                    foreach ($dentistas as $index => $dentista) {
+                        echo "$index. {$dentista->getNome()}\n";
+                    }
 
-                if (isset($dentista[$indiceEscolhido])) {
-                    // Obtendo a especialidade escolhida pelo usuário
-                    $dentistaescolhido = $dentista[$indiceEscolhido];
+                    $indiceEscolhido = readline("Escolha a especialidade (digite o número correspondente): ");
+
+                    if (isset($dentista[$indiceEscolhido])) {
+                        // Obtendo a especialidade escolhida pelo usuário
+                        $dentistaescolhido = $dentista[$indiceEscolhido];
+                    } else {
+                        echo "Índice inválido. Por favor, escolha um número válido.\n";
+                    }
                 } else {
-                    echo "Índice inválido. Por favor, escolha um número válido.\n";
+                    echo "Não há dentistas cadastrados\n";
+                    return;
                 }
                 break;
         }

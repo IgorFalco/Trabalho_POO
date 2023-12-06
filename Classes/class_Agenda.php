@@ -76,7 +76,7 @@ class Agenda extends persist
             $this->agendaMensal[$dataFormatada . ' ' . $consulta->getHorario()] = "Marcado";
             return true;
         } else {
-            echo "Data indisponível!";
+            echo "Data indisponível!\n";
             return false;
         }
     }
